@@ -1,0 +1,723 @@
+@use '../abstracts' as *;
+
+// ============================================================
+// MUSAS — Editorial Portraits · Cinematic Reveals · Trends 2026
+// ============================================================
+
+.musas {
+  position: relative;
+  background: $color-cream;
+  overflow: hidden;
+  transition: background-color 0.8s ease;
+}
+
+.musas-letter {
+  display: inline-block;
+  will-change: transform;
+  transform-origin: 50% 100%;
+}
+
+// ── Intro ───────────────────────────────────────────────────
+
+.musas-intro {
+  position: relative;
+  padding: $spacing-5xl $spacing-lg $spacing-4xl;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba($color-blush, 0.25), transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba($color-sand, 0.3), transparent 55%),
+    $color-warm-white;
+
+  @include respond-to(md) { padding: $spacing-5xl $spacing-2xl; }
+
+  &__wrap {
+    @include container;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+
+    @include respond-to(lg) {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: $spacing-4xl;
+      align-items: end;
+    }
+  }
+
+  &__top {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: $spacing-lg;
+    margin-bottom: $spacing-xl;
+    border-bottom: 1px solid rgba($color-text-dark, 0.08);
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.64rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+
+    @include respond-to(md) { font-size: 0.7rem; }
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-primary;
+    box-shadow: 0 0 12px rgba($color-primary, 0.4);
+    animation: musa-pulse 2.4s ease-in-out infinite;
+  }
+
+  &__tag {
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__heading {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    line-height: 0.92;
+    color: $color-text-dark;
+    font-size: clamp(3rem, 11vw, 5rem);
+    letter-spacing: -0.02em;
+    margin: 0;
+
+    @include respond-to(md) { font-size: clamp(5rem, 10vw, 8rem); }
+    @include respond-to(lg) { font-size: clamp(6rem, 9vw, 10rem); }
+  }
+
+  &__line {
+    display: block;
+    overflow: hidden;
+    padding: 0.05em 0.02em;
+  }
+
+  &__line-inner {
+    display: inline-block;
+
+    &--accent {
+      font-style: italic;
+
+      .musas-letter {
+        background: linear-gradient(110deg, $color-primary-light 10%, $color-primary 45%, $color-accent 85%);
+        background-size: 220% 220%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        animation: musa-shimmer 6s ease-in-out infinite;
+      }
+    }
+  }
+
+  &__lead {
+    font-family: $font-primary;
+    font-size: 1rem;
+    line-height: 1.85;
+    font-weight: $font-weight-light;
+    color: $color-text-medium;
+    max-width: 520px;
+    margin: $spacing-xl 0 0;
+
+    @include respond-to(md) { font-size: 1.08rem; }
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: $spacing-lg;
+    border: 1px solid rgba($color-text-dark, 0.1);
+    border-radius: 14px;
+    background: rgba($color-white, 0.4);
+    backdrop-filter: blur(12px);
+
+    @include respond-to(lg) { padding: $spacing-xl; }
+  }
+
+  &__meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: $spacing-md;
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid rgba($color-text-dark, 0.06);
+
+    &:last-child { border-bottom: 0; }
+
+    dt {
+      font-family: $font-mono;
+      font-size: 0.54rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: $color-text-muted;
+    }
+
+    dd {
+      font-family: $font-primary;
+      font-size: 0.85rem;
+      font-weight: $font-weight-regular;
+      color: $color-text-dark;
+      margin: 0;
+      letter-spacing: 0.005em;
+      text-align: right;
+    }
+  }
+}
+
+// ============================================================
+// MUSA — Individual muse section (100vh)
+// ============================================================
+
+.musa {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: $spacing-4xl 0;
+
+  @include respond-to(md) { padding: $spacing-3xl 0; }
+
+  &__inner {
+    @include container;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+
+    @media (min-width: 900px) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: $spacing-3xl;
+      align-items: center;
+    }
+
+    @media (min-width: 1200px) {
+      gap: $spacing-4xl;
+    }
+  }
+
+  // Alternate layout — image left
+  &--left .musa__inner {
+    @media (min-width: 900px) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    }
+  }
+
+  &--left .musa__image-col {
+    @media (min-width: 900px) { order: 1; }
+  }
+
+  &--left .musa__content-col {
+    @media (min-width: 900px) { order: 2; }
+  }
+
+  // Right layout — image right (default reversal)
+  &--right .musa__image-col {
+    @media (min-width: 900px) { order: 2; }
+  }
+
+  &--right .musa__content-col {
+    @media (min-width: 900px) { order: 1; }
+  }
+
+  // ── Image column ──
+  &__image-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__image-frame {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    overflow: hidden;
+    background: $color-text-dark;
+    box-shadow:
+      0 50px 110px -30px rgba($color-text-dark, 0.45),
+      0 20px 40px -20px rgba($color-text-dark, 0.2);
+    will-change: clip-path;
+
+    @media (min-width: 1200px) { max-width: 540px; }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    will-change: transform;
+  }
+
+  &__image-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 25%, rgba($color-white, 0.1), transparent 55%),
+      linear-gradient(180deg, transparent 55%, rgba($color-text-dark, 0.3));
+    mix-blend-mode: multiply;
+  }
+
+  &__image-corners {
+    position: absolute;
+    inset: 14px;
+    z-index: 3;
+    pointer-events: none;
+
+    span {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba($color-white, 0.55);
+    }
+    span:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    span:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    span:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    span:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+  }
+
+  &__image-label {
+    position: absolute;
+    bottom: $spacing-md;
+    left: $spacing-md;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border: 1px solid rgba($color-white, 0.3);
+    border-radius: $border-radius-pill;
+    background: rgba($color-text-dark, 0.4);
+    backdrop-filter: blur(14px) saturate(1.2);
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: $color-white;
+  }
+
+  &__image-label-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    animation: musa-pulse 2s ease-in-out infinite;
+  }
+
+  // Big floating number beside image
+  &__number {
+    position: absolute;
+    z-index: -1;
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: clamp(10rem, 28vw, 22rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba($color-text-dark, 0.14);
+    letter-spacing: -0.04em;
+    user-select: none;
+    pointer-events: none;
+    will-change: transform, opacity;
+    top: -5%;
+    opacity: 0.8;
+
+    .musa--right & { right: -8%; }
+    .musa--left & { left: -8%; }
+
+    @media (min-width: 1200px) {
+      .musa--right & { right: -10%; }
+      .musa--left & { left: -10%; }
+    }
+  }
+
+  // Muse card (below image)
+  &__muse-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid rgba($color-text-dark, 0.12);
+    border-radius: $border-radius-pill;
+    background: rgba($color-white, 0.5);
+    backdrop-filter: blur(12px);
+  }
+
+  &__muse-line {
+    flex-shrink: 0;
+    width: 22px;
+    height: 1px;
+    background: $color-primary-dark;
+  }
+
+  &__muse-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__muse-name {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1;
+    color: $color-text-dark;
+    letter-spacing: 0.005em;
+  }
+
+  &__muse-origin {
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  // ── Content column ──
+  &__content-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    max-width: 580px;
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+  }
+
+  &__eyebrow-line {
+    width: 36px;
+    height: 1px;
+    background: $color-primary-dark;
+    opacity: 0.5;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    font-weight: $font-weight-light;
+    line-height: 0.9;
+    color: $color-text-dark;
+  }
+
+  &__label {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: $color-primary-dark;
+    letter-spacing: 0.02em;
+    padding-left: 6px;
+  }
+
+  &__name-main {
+    display: inline-block;
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: clamp(3.2rem, 9vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    overflow: hidden;
+    padding: 0.05em 0;
+
+    @include respond-to(md) { font-size: clamp(4.5rem, 8vw, 7.5rem); }
+    @include respond-to(lg) { font-size: clamp(5.5rem, 7.5vw, 9rem); }
+  }
+
+  &__tagline {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: $font-weight-regular;
+    color: $color-primary-dark;
+    letter-spacing: 0.01em;
+    margin-top: $spacing-xs;
+
+    @include respond-to(md) { font-size: 1.35rem; }
+  }
+
+  &__description {
+    font-family: $font-primary;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    font-weight: $font-weight-light;
+    color: $color-text-medium;
+    max-width: 520px;
+    margin: 0;
+
+    @include respond-to(md) { font-size: 1rem; }
+  }
+
+  &__quote {
+    position: relative;
+    padding: $spacing-lg $spacing-xl;
+    margin: $spacing-sm 0;
+    border-left: 1px solid rgba($color-primary, 0.4);
+    background: rgba($color-white, 0.35);
+
+    @include respond-to(md) { padding: $spacing-lg $spacing-2xl; }
+  }
+
+  &__quote-mark {
+    position: absolute;
+    top: -14px;
+    left: 12px;
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: rgba($color-primary, 0.5);
+    pointer-events: none;
+  }
+
+  &__quote-body {
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-regular;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    line-height: 1.55;
+    color: $color-text-dark;
+    margin: 0;
+    letter-spacing: 0.005em;
+  }
+
+  &__traits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-md $spacing-xl;
+    margin: 0;
+    padding: $spacing-md 0;
+    border-top: 1px solid rgba($color-text-dark, 0.08);
+    border-bottom: 1px solid rgba($color-text-dark, 0.08);
+  }
+
+  &__trait {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    dt {
+      font-family: $font-mono;
+      font-size: 0.54rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: $color-text-muted;
+    }
+
+    dd {
+      font-family: $font-primary;
+      font-size: 0.88rem;
+      font-weight: $font-weight-regular;
+      color: $color-text-dark;
+      margin: 0;
+      letter-spacing: 0.005em;
+    }
+  }
+
+  &__palette {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__palette-label {
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__palette-swatches {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__palette-swatch {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba($color-text-dark, 0.08);
+    box-shadow: 0 2px 8px rgba($color-text-dark, 0.08);
+  }
+
+  &__piece {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm 0;
+    margin-top: $spacing-sm;
+    font-family: $font-primary;
+    text-decoration: none;
+    color: $color-text-dark;
+    position: relative;
+    transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transform-origin: left center;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover {
+      gap: $spacing-lg;
+      color: $color-primary-dark;
+      svg { transform: translate(4px, -4px); }
+      &::after { transform: scaleX(1.15); }
+    }
+  }
+
+  &__piece-label {
+    font-family: $font-mono;
+    font-size: 0.56rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__piece-name {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.05rem;
+    font-weight: $font-weight-regular;
+    letter-spacing: 0.005em;
+
+    @include respond-to(md) { font-size: 1.15rem; }
+  }
+}
+
+// ============================================================
+// OUTRO — Four names unite
+// ============================================================
+
+.musas-outro {
+  position: relative;
+  padding: $spacing-4xl 0 $spacing-5xl;
+  background: $color-cream;
+  text-align: center;
+
+  @include respond-to(md) { padding: $spacing-5xl 0; }
+
+  &__wrap {
+    @include container;
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+  }
+
+  &__rule {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: rgba($color-text-dark, 0.2);
+  }
+
+  &__heading {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-style: italic;
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    line-height: 1.1;
+    color: $color-text-dark;
+    letter-spacing: -0.01em;
+    margin: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  &__letter {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  &__names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-md $spacing-lg;
+    margin-top: $spacing-2xl;
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: $color-text-dark;
+    letter-spacing: 0.005em;
+
+    span { line-height: 1; }
+  }
+
+  &__dot {
+    color: $color-primary;
+    font-size: 0.9em;
+  }
+
+  &__sign {
+    margin-top: $spacing-xl;
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+}
+
+// ============================================================
+// KEYFRAMES
+// ============================================================
+
+@keyframes musa-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes musa-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}

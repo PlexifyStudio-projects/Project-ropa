@@ -1,0 +1,713 @@
+@use '../abstracts' as *;
+
+// ============================================================
+// FOOTER — Editorial · Luxury · Trends 2026
+// ============================================================
+
+.footer {
+  position: relative;
+  background: $color-text-dark;
+  color: $color-white;
+  overflow: hidden;
+}
+
+// ============================================================
+// MARQUEE — Giant italic scroller
+// ============================================================
+
+.foot-marquee {
+  position: relative;
+  padding: $spacing-lg 0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba($color-white, 0.08);
+
+  @include respond-to(md) { padding: $spacing-xl 0; }
+
+  &__track {
+    display: flex;
+    width: max-content;
+    animation: foot-marquee 44s linear infinite;
+  }
+
+  &__group {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-lg;
+    padding-right: $spacing-lg;
+
+    @include respond-to(md) { gap: $spacing-xl; padding-right: $spacing-xl; }
+  }
+
+  &__item {
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: clamp(2rem, 5.5vw, 3.8rem);
+    line-height: 0.9;
+    color: $color-white;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    background: linear-gradient(110deg, $color-primary-light 20%, $color-white 55%, $color-secondary-light 85%);
+    background-size: 220% 220%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: foot-shimmer 8s ease-in-out infinite;
+
+    &--small {
+      font-style: normal;
+      font-family: $font-mono;
+      font-weight: $font-weight-regular;
+      font-size: clamp(0.6rem, 0.9vw, 0.78rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: $color-primary-light;
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      animation: none;
+      align-self: center;
+    }
+  }
+
+  &__dot {
+    color: $color-primary;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    align-self: center;
+  }
+}
+
+// ============================================================
+// TOP — Brand + Newsletter
+// ============================================================
+
+.foot-top {
+  padding: $spacing-2xl $spacing-lg $spacing-xl;
+
+  @include respond-to(md) { padding: $spacing-2xl $spacing-2xl; }
+
+  &__wrap {
+    @include container;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+
+    @include respond-to(lg) {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: $spacing-3xl;
+      align-items: start;
+    }
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// ── Brand ──
+.foot-brand {
+  gap: $spacing-sm;
+
+  &__mark {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  &__star {
+    color: $color-primary-light;
+    font-size: 1.1rem;
+    line-height: 1;
+    animation: foot-spin 18s linear infinite;
+  }
+
+  &__name {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    line-height: 1;
+    color: $color-white;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  &__tag {
+    font-family: $font-mono;
+    font-size: 0.56rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-light;
+    margin: 0;
+  }
+
+  &__desc {
+    font-family: $font-primary;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    font-weight: $font-weight-light;
+    color: rgba($color-white, 0.65);
+    max-width: 480px;
+    margin: $spacing-xs 0 0;
+
+    @include respond-to(md) { font-size: 0.88rem; }
+  }
+
+  &__sign {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-top: $spacing-sm;
+    padding-top: $spacing-sm;
+    border-top: 1px solid rgba($color-white, 0.12);
+  }
+
+  &__sign-line {
+    flex-shrink: 0;
+    width: 28px;
+    height: 1px;
+    background: $color-primary-light;
+  }
+
+  &__sign-name {
+    display: block;
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: $color-white;
+    letter-spacing: 0.005em;
+    line-height: 1.1;
+  }
+
+  &__sign-role {
+    display: block;
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.55);
+    margin-top: 3px;
+  }
+}
+
+// ── Newsletter ──
+.foot-news {
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  border: 1px solid rgba($color-white, 0.12);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at top left, rgba($color-primary, 0.12), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba($color-rose, 0.06), transparent 50%),
+    rgba($color-white, 0.03);
+  backdrop-filter: blur(10px);
+
+  @include respond-to(md) { padding: $spacing-lg $spacing-xl; }
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-light;
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    box-shadow: 0 0 12px rgba($color-primary, 0.6);
+    animation: foot-pulse 2.4s ease-in-out infinite;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height: 1.05;
+    color: $color-white;
+    letter-spacing: -0.005em;
+    margin: 0;
+
+    em {
+      font-style: italic;
+      background: linear-gradient(110deg, $color-primary-light, $color-primary, $color-accent);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__desc {
+    font-family: $font-primary;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    font-weight: $font-weight-light;
+    color: rgba($color-white, 0.65);
+    margin: 0;
+    max-width: 420px;
+  }
+
+  &__form {
+    display: flex;
+    gap: 6px;
+    margin-top: $spacing-sm;
+    padding: 5px;
+    background: rgba($color-white, 0.06);
+    border: 1px solid rgba($color-white, 0.15);
+    border-radius: $border-radius-pill;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus-within {
+      border-color: rgba($color-primary-light, 0.55);
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.18);
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px $spacing-md;
+    font-family: $font-primary;
+    font-size: 0.92rem;
+    color: $color-white;
+    background: transparent;
+    border: none;
+    letter-spacing: 0.01em;
+
+    &::placeholder {
+      color: rgba($color-white, 0.4);
+      font-style: italic;
+    }
+
+    &:focus { outline: none; }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px $spacing-lg;
+    border: none;
+    border-radius: $border-radius-pill;
+    background: linear-gradient(135deg, $color-primary-light, $color-primary);
+    color: $color-text-dark;
+    font-family: $font-primary;
+    font-size: 0.7rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: gap 0.3s ease, background 0.3s ease, transform 0.3s ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      gap: 12px;
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, $color-primary, $color-accent);
+      svg { transform: translateX(3px); }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.5);
+    padding-top: 4px;
+  }
+
+  &__meta-dot {
+    opacity: 0.5;
+  }
+}
+
+// ============================================================
+// NAV COLUMNS
+// ============================================================
+
+.foot-nav {
+  padding: $spacing-xl $spacing-lg;
+  border-top: 1px solid rgba($color-white, 0.08);
+  border-bottom: 1px solid rgba($color-white, 0.08);
+
+  @include respond-to(md) { padding: $spacing-xl $spacing-2xl; }
+
+  &__wrap {
+    @include container;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg $spacing-md;
+
+    @include respond-to(md) { grid-template-columns: repeat(4, 1fr); gap: $spacing-lg; }
+  }
+}
+
+.foot-col {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid rgba($color-white, 0.12);
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: 1.05rem;
+    color: $color-white;
+    letter-spacing: 0.005em;
+  }
+
+  &__num {
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    color: $color-primary-light;
+    font-style: normal;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-xs;
+    padding: 4px 0;
+    font-family: $font-primary;
+    font-size: 0.78rem;
+    font-weight: $font-weight-light;
+    color: rgba($color-white, 0.68);
+    text-decoration: none;
+    letter-spacing: 0.005em;
+    position: relative;
+    transition: color 0.3s ease, padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    svg {
+      width: 11px;
+      height: 11px;
+      opacity: 0;
+      transform: translate(-6px, 6px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover {
+      color: $color-primary-light;
+      padding-left: 6px;
+
+      svg {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    }
+  }
+}
+
+// ============================================================
+// SOCIAL (compact)
+// ============================================================
+
+.foot-social {
+  padding: $spacing-lg;
+  border-bottom: 1px solid rgba($color-white, 0.08);
+
+  @include respond-to(md) { padding: $spacing-lg $spacing-2xl; }
+
+  &__wrap {
+    @include container;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    @include respond-to(md) {
+      flex-direction: row;
+      align-items: center;
+      gap: $spacing-xl;
+    }
+  }
+
+  &__eyebrow {
+    font-family: $font-mono;
+    font-size: 0.56rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.5);
+    flex-shrink: 0;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-xs;
+    flex: 1;
+
+    @include respond-to(md) { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid rgba($color-white, 0.1);
+    border-radius: 10px;
+    background: rgba($color-white, 0.03);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.35s ease;
+
+    &:hover {
+      background: rgba($color-white, 0.08);
+      border-color: rgba($color-primary-light, 0.45);
+
+      .foot-social__icon {
+        background: $color-primary-light;
+        color: $color-text-dark;
+        transform: rotate(-8deg) scale(1.08);
+      }
+
+      .foot-social__name { color: $color-primary-light; }
+    }
+  }
+
+  &__icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba($color-white, 0.15);
+    color: $color-white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    svg { width: 14px; height: 14px; }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  &__name {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: $color-white;
+    transition: color 0.3s ease;
+    letter-spacing: 0.005em;
+  }
+
+  &__handle {
+    font-family: $font-mono;
+    font-size: 0.44rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.5);
+  }
+}
+
+// ============================================================
+// BOTTOM BAR
+// ============================================================
+
+.foot-bottom {
+  padding: $spacing-md $spacing-lg;
+
+  @include respond-to(md) { padding: $spacing-md $spacing-2xl; }
+
+  &__wrap {
+    @include container;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: center;
+    text-align: center;
+    font-family: $font-mono;
+    font-size: 0.56rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.5);
+
+    @include respond-to(md) {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: $spacing-lg;
+      text-align: left;
+    }
+  }
+
+  &__left, &__center, &__right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__center {
+    em {
+      font-family: $font-heading;
+      font-style: italic;
+      font-size: 0.85rem;
+      letter-spacing: 0.005em;
+      color: $color-primary-light;
+      text-transform: none;
+    }
+  }
+
+  &__heart {
+    color: $color-primary-light;
+    font-size: 0.85rem;
+    animation: foot-pulse 3s ease-in-out infinite;
+  }
+
+  &__sep {
+    opacity: 0.4;
+  }
+
+  &__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    button {
+      background: transparent;
+      border: none;
+      padding: 2px 4px;
+      font-family: $font-mono;
+      font-size: 0.56rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba($color-white, 0.4);
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover { color: $color-primary-light; }
+
+      &.is-active {
+        color: $color-white;
+        font-weight: $font-weight-medium;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: $color-primary-light;
+      }
+    }
+
+    span {
+      color: rgba($color-white, 0.3);
+    }
+  }
+}
+
+// ============================================================
+// BACK TO TOP (floating)
+// ============================================================
+
+.foot-top-btn {
+  position: fixed;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-family: $font-mono;
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $color-text-dark;
+  background: $color-white;
+  border: 1px solid rgba($color-text-dark, 0.12);
+  border-radius: $border-radius-pill;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -10px rgba($color-text-dark, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s, gap 0.3s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &:hover {
+    gap: 12px;
+    background: $color-text-dark;
+    color: $color-white;
+
+    svg { transform: translateY(-3px); }
+  }
+
+  @media (max-width: 640px) {
+    bottom: $spacing-sm;
+    right: $spacing-sm;
+    padding: 10px 14px;
+
+    span { display: none; }
+  }
+}
+
+// ============================================================
+// KEYFRAMES
+// ============================================================
+
+@keyframes foot-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes foot-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes foot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+
+@keyframes foot-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

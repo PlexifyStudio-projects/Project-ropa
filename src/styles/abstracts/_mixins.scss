@@ -1,0 +1,128 @@
+@use 'variables' as *;
+
+// ============================================================
+// MIXINS — Stelar Luxury · Light Feminine Aesthetic
+// ============================================================
+
+// --- Responsive Breakpoints ---
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  } @else if $breakpoint == 2xl {
+    @media (min-width: $breakpoint-2xl) { @content; }
+  }
+}
+
+// --- Flexbox ---
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// --- Grid ---
+@mixin grid($columns: 1, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// --- Container ---
+@mixin container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $container-padding;
+}
+
+// --- Typography ---
+@mixin heading($size: $font-size-3xl) {
+  font-family: $font-heading;
+  font-size: $size;
+  font-weight: $font-weight-light;
+  line-height: $line-height-tight;
+  color: $color-text-dark;
+}
+
+@mixin body-text($size: $font-size-base) {
+  font-family: $font-primary;
+  font-size: $size;
+  line-height: $line-height-normal;
+  color: $color-text-medium;
+}
+
+// --- Visual effects ---
+@mixin glass-light {
+  background: rgba($color-white, 0.7);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid $color-border;
+}
+
+@mixin gradient-text {
+  background: $gradient-primary;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin hover-lift {
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// --- Buttons ---
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-xl;
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all $transition-elegant;
+}
+
+// --- Section ---
+@mixin section-padding {
+  padding-block: $spacing-5xl;
+}
+
+// --- Animations ---
+@mixin fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity $transition-slow, transform $transition-slow;
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

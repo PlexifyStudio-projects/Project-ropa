@@ -1,0 +1,1454 @@
+@use '../abstracts' as *;
+
+// ============================================================
+// ARCHIVO — Bento Editorial Interactive · Trends 2026
+// ============================================================
+
+.archivo {
+  position: relative;
+  background: $color-cream;
+  overflow: hidden;
+}
+
+.arch-letter {
+  display: inline-block;
+  will-change: transform;
+  transform-origin: 50% 100%;
+}
+
+// ── Header ──────────────────────────────────────────────────
+
+.arch-header {
+  padding: $spacing-5xl $spacing-lg $spacing-3xl;
+  background:
+    radial-gradient(ellipse at top left, rgba($color-blush, 0.25), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba($color-sand, 0.3), transparent 60%),
+    $color-cream;
+
+  @include respond-to(md) { padding: $spacing-5xl $spacing-2xl $spacing-3xl; }
+
+  &__wrap { @include container; }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+    border-bottom: 1px solid rgba($color-text-dark, 0.08);
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.64rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+
+    @include respond-to(md) { font-size: 0.7rem; }
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-primary;
+    box-shadow: 0 0 12px rgba($color-primary, 0.4);
+    animation: arch-pulse 2.4s ease-in-out infinite;
+  }
+
+  &__tag {
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__heading {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    line-height: 0.95;
+    color: $color-text-dark;
+    font-size: clamp(3rem, 11vw, 5rem);
+    letter-spacing: -0.02em;
+    margin: 0;
+
+    @include respond-to(md) { font-size: clamp(5rem, 10vw, 8rem); }
+    @include respond-to(lg) { font-size: clamp(6rem, 9vw, 11rem); }
+  }
+
+  &__line {
+    display: block;
+    overflow: hidden;
+    padding: 0.05em 0.02em;
+  }
+
+  &__line-inner {
+    display: inline-block;
+
+    &--accent {
+      font-style: italic;
+
+      .arch-letter {
+        background: linear-gradient(110deg, $color-primary-light 10%, $color-primary 45%, $color-accent 85%);
+        background-size: 220% 220%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        animation: arch-shimmer 6s ease-in-out infinite;
+      }
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    margin-top: $spacing-2xl;
+
+    @include respond-to(lg) {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: $spacing-4xl;
+      align-items: end;
+    }
+  }
+
+  &__lead {
+    font-family: $font-primary;
+    font-size: 1rem;
+    line-height: 1.85;
+    font-weight: $font-weight-light;
+    color: $color-text-medium;
+    max-width: 580px;
+    margin: 0;
+
+    @include respond-to(md) { font-size: 1.08rem; }
+  }
+
+  &__index {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: $spacing-lg;
+    border: 1px solid rgba($color-text-dark, 0.1);
+    border-radius: 14px;
+    background: rgba($color-white, 0.4);
+    backdrop-filter: blur(12px);
+  }
+
+  &__index-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid rgba($color-text-dark, 0.06);
+
+    &:last-child { border-bottom: 0; }
+
+    span:first-child {
+      font-family: $font-mono;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      color: $color-text-muted;
+    }
+
+    span:last-child {
+      font-family: $font-heading;
+      font-style: italic;
+      font-size: 1rem;
+      color: $color-text-dark;
+      letter-spacing: 0.005em;
+    }
+  }
+}
+
+// ============================================================
+// BENTO GRID LAYOUT
+// ============================================================
+
+.arch-grid {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  padding: $spacing-xl 0 $spacing-4xl;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 220px;
+    gap: $spacing-md;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: $spacing-lg;
+    grid-template-areas:
+      "a a b c"
+      "a a d d"
+      "e f g g"
+      "e h g g"
+      "j j k k"
+      "i l m n";
+  }
+
+  @media (min-width: 1400px) {
+    grid-auto-rows: 240px;
+    gap: $spacing-xl;
+  }
+}
+
+.bento--a { @media (min-width: 1024px) { grid-area: a; } }
+.bento--b { @media (min-width: 1024px) { grid-area: b; } }
+.bento--c { @media (min-width: 1024px) { grid-area: c; } }
+.bento--d { @media (min-width: 1024px) { grid-area: d; } }
+.bento--e { @media (min-width: 1024px) { grid-area: e; } }
+.bento--f { @media (min-width: 1024px) { grid-area: f; } }
+.bento--g { @media (min-width: 1024px) { grid-area: g; } }
+.bento--h { @media (min-width: 1024px) { grid-area: h; } }
+.bento--i { @media (min-width: 1024px) { grid-area: i; } }
+.bento--j { @media (min-width: 1024px) { grid-area: j; } }
+.bento--k { @media (min-width: 1024px) { grid-area: k; } }
+.bento--l { @media (min-width: 1024px) { grid-area: l; } }
+.bento--m { @media (min-width: 1024px) { grid-area: m; } }
+.bento--n { @media (min-width: 1024px) { grid-area: n; } }
+
+// Tablet fallback
+.bento {
+  min-height: 260px;
+
+  @media (min-width: 640px) {
+    &--a, &--g { grid-column: span 2; min-height: 420px; }
+    &--d, &--j, &--k { grid-column: span 2; min-height: 240px; }
+    &--e { grid-row: span 2; min-height: 500px; }
+  }
+
+  @media (min-width: 1024px) { min-height: 0; }
+}
+
+// ============================================================
+// BENTO TILE — Base (shared)
+// ============================================================
+
+.bento {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: $color-white;
+  border: 1px solid rgba($color-text-dark, 0.06);
+  box-shadow: 0 10px 40px -15px rgba($color-text-dark, 0.08);
+  will-change: transform;
+  transition: box-shadow 0.5s ease, border-color 0.4s ease;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+
+  &--link {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 30px 80px -20px rgba($color-text-dark, 0.2);
+      border-color: rgba($color-primary, 0.35);
+
+      .bento__hover-cta { transform: translateY(0); opacity: 1; }
+      .bento__tile-link { color: $color-primary-dark; gap: 10px; }
+      .bento__tile-link svg { transform: translate(3px, -3px); }
+      .bento__img { transform: scale(1.05); }
+      .bento__palette-hex { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    will-change: transform;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &--cta { opacity: 0.3; }
+    &--tour { opacity: 0.55; }
+  }
+
+  &__tint {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      rgba($color-text-dark, 0.05) 0%,
+      transparent 40%,
+      rgba($color-text-dark, 0.5) 100%);
+    pointer-events: none;
+  }
+
+  &__shine {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &__corners {
+    position: absolute;
+    inset: 12px;
+    z-index: 4;
+    pointer-events: none;
+
+    span {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1px solid rgba($color-white, 0.55);
+    }
+    span:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    span:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    span:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    span:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+  }
+
+  // Hover CTA overlay for image tiles
+  &__hover-cta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: $border-radius-pill;
+    background: rgba($color-white, 0.95);
+    backdrop-filter: blur(10px);
+    color: $color-text-dark;
+    font-family: $font-mono;
+    font-size: 0.62rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    font-weight: $font-weight-medium;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+    svg { width: 14px; height: 14px; }
+  }
+
+  // Inline tile link (for text tiles)
+  &__tile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: $spacing-sm;
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    font-weight: $font-weight-medium;
+    transition: color 0.4s ease, gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-top: 1px solid rgba($color-text-dark, 0.1);
+
+    svg {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &--sm {
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+    }
+
+    &--inline {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    &--dark {
+      color: $color-white;
+      border-top-color: rgba($color-white, 0.15);
+    }
+  }
+
+  // ── Ribbons ──
+  &__ribbon {
+    position: absolute;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid rgba($color-white, 0.3);
+    border-radius: $border-radius-pill;
+    background: rgba($color-text-dark, 0.4);
+    backdrop-filter: blur(14px) saturate(1.2);
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-white;
+
+    &--top { top: 18px; left: 18px; }
+    &--bottom {
+      bottom: 18px; left: 18px; right: 18px;
+      justify-content: space-between;
+      padding: 12px 16px;
+    }
+    &--small {
+      padding: 6px 12px;
+      font-size: 0.52rem;
+      right: 18px;
+      left: auto;
+      justify-content: flex-start;
+    }
+  }
+
+  &__ribbon-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    box-shadow: 0 0 8px rgba($color-primary, 0.6);
+    animation: arch-pulse 2s ease-in-out infinite;
+  }
+
+  &__ribbon-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+
+    span {
+      font-family: $font-mono;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      opacity: 0.8;
+    }
+
+    em {
+      font-family: $font-heading;
+      font-style: italic;
+      font-size: 0.95rem;
+      font-weight: $font-weight-regular;
+      letter-spacing: 0.01em;
+      text-transform: none;
+    }
+  }
+
+  &__ribbon--bottom svg {
+    width: 18px;
+    height: 18px;
+    color: $color-white;
+  }
+
+  // ============================================================
+  // VARIANT — Palette
+  // ============================================================
+  &--palette {
+    padding: $spacing-lg;
+    background: $color-warm-white;
+    gap: $spacing-sm;
+  }
+
+  &__label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid rgba($color-text-dark, 0.08);
+  }
+
+  &__label {
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    font-weight: $font-weight-medium;
+  }
+
+  &__label-count {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: $color-primary-dark;
+  }
+
+  &__palette-swatches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-xs;
+    flex: 1;
+  }
+
+  &__palette-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__palette-swatch {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    border: 1px solid rgba($color-text-dark, 0.08);
+    box-shadow: inset 0 2px 8px rgba($color-text-dark, 0.1);
+    overflow: hidden;
+  }
+
+  &__palette-hex {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: $color-white;
+    background: rgba($color-text-dark, 0.55);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  &__palette-name {
+    font-family: $font-mono;
+    font-size: 0.48rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    text-align: center;
+  }
+
+  // ============================================================
+  // VARIANT — Stat
+  // ============================================================
+  &--stat {
+    padding: $spacing-lg;
+    background: $color-warm-white;
+    gap: $spacing-xs;
+    justify-content: center;
+  }
+
+  &__stat-eyebrow {
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+  }
+
+  &__stat-num {
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.9;
+    color: $color-text-dark;
+    letter-spacing: -0.02em;
+    margin: $spacing-xs 0;
+  }
+
+  &__stat-label {
+    font-family: $font-primary;
+    font-size: 0.85rem;
+    font-weight: $font-weight-regular;
+    color: $color-text-dark;
+  }
+
+  &__stat-foot {
+    font-family: $font-mono;
+    font-size: 0.52rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-top: $spacing-xs;
+    margin-bottom: $spacing-sm;
+  }
+
+  // ============================================================
+  // VARIANT — Quote
+  // ============================================================
+  &--quote {
+    position: relative;
+    padding: $spacing-xl $spacing-lg $spacing-lg;
+    background: $color-warm-white;
+    justify-content: center;
+    gap: $spacing-md;
+  }
+
+  &__quote-mark {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 4rem;
+    line-height: 1;
+    color: rgba($color-primary, 0.35);
+    pointer-events: none;
+  }
+
+  &__quote-body {
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-regular;
+    font-size: clamp(1.1rem, 1.7vw, 1.5rem);
+    line-height: 1.5;
+    color: $color-text-dark;
+    margin: 0;
+    letter-spacing: 0.005em;
+
+    em {
+      font-style: italic;
+      background: linear-gradient(110deg, $color-primary-light, $color-primary, $color-accent);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__quote-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+    padding-top: $spacing-sm;
+    border-top: 1px solid rgba($color-text-dark, 0.08);
+    flex-wrap: wrap;
+  }
+
+  &__quote-author-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      font-family: $font-mono;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+  }
+
+  &__quote-line {
+    flex-shrink: 0;
+    width: 24px;
+    height: 1px;
+    background: $color-primary-dark;
+  }
+
+  &__quote-author {
+    color: $color-text-dark;
+    font-weight: $font-weight-medium;
+  }
+
+  &__quote-role {
+    color: $color-text-muted;
+  }
+
+  // ============================================================
+  // VARIANT — Press (dark)
+  // ============================================================
+  &--press {
+    padding: $spacing-lg;
+    background: $color-text-dark;
+    color: $color-white;
+    gap: $spacing-sm;
+    justify-content: space-between;
+  }
+
+  &__press-eyebrow {
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.6);
+  }
+
+  &__press-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: $spacing-xs;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba($color-white, 0.1);
+
+      &:last-child { border-bottom: 0; }
+
+      em {
+        font-family: $font-heading;
+        font-style: italic;
+        font-size: 1rem;
+        color: $color-white;
+        font-weight: $font-weight-regular;
+      }
+
+      span {
+        font-family: $font-mono;
+        font-size: 0.5rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba($color-white, 0.55);
+      }
+    }
+  }
+
+  &__press-foot {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 0.55rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.7);
+  }
+
+  &__press-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    box-shadow: 0 0 8px rgba($color-primary, 0.5);
+    animation: arch-pulse 2s ease-in-out infinite;
+  }
+
+  // ============================================================
+  // VARIANT — CTA (El Privilegio)
+  // ============================================================
+  &--cta {
+    position: relative;
+    background: $color-text-dark;
+    color: $color-white;
+    overflow: hidden;
+  }
+
+  &__cta-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(135deg, rgba($color-text-dark, 0.88), rgba($color-text-dark, 0.72)),
+      radial-gradient(circle at 20% 80%, rgba($color-primary, 0.25), transparent 55%);
+    pointer-events: none;
+  }
+
+  &__cta-inner {
+    position: relative;
+    z-index: 5;
+    padding: $spacing-xl $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    height: 100%;
+
+    @media (min-width: 1024px) { padding: $spacing-2xl; }
+  }
+
+  &__cta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: $color-primary-light;
+  }
+
+  &__cta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    box-shadow: 0 0 12px rgba($color-primary, 0.5);
+    animation: arch-pulse 2.4s ease-in-out infinite;
+  }
+
+  &__cta-title {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    line-height: 0.9;
+    margin: 0;
+    color: $color-white;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    letter-spacing: -0.02em;
+
+    span { display: block; font-style: normal; }
+
+    em {
+      display: block;
+      font-style: italic;
+      background: linear-gradient(110deg, $color-primary-light, $color-primary, $color-accent);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__cta-desc {
+    font-family: $font-primary;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    font-weight: $font-weight-light;
+    color: rgba($color-white, 0.78);
+    max-width: 440px;
+    margin: 0;
+  }
+
+  &__cta-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+    padding: $spacing-md 0;
+    margin: 0;
+    border-top: 1px solid rgba($color-white, 0.12);
+    border-bottom: 1px solid rgba($color-white, 0.12);
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    dt {
+      font-family: $font-mono;
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba($color-white, 0.5);
+    }
+
+    dd {
+      font-family: $font-primary;
+      font-size: 0.82rem;
+      color: $color-white;
+      margin: 0;
+    }
+  }
+
+  &__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    margin-top: auto;
+  }
+
+  &__cta-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-xl;
+    font-family: $font-primary;
+    font-size: 0.74rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: $border-radius-pill;
+    transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover {
+      gap: $spacing-md;
+      svg { transform: translate(3px, -3px); }
+    }
+
+    &--ghost {
+      padding: $spacing-md $spacing-lg;
+      color: $color-white;
+      border: 1px solid rgba($color-white, 0.4);
+      background: transparent;
+
+      &:hover {
+        background: rgba($color-white, 0.08);
+        border-color: rgba($color-white, 0.7);
+      }
+    }
+  }
+
+  &__cta-button-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, $color-primary-light, $color-secondary);
+    z-index: 0;
+  }
+
+  &__cta-button-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__cta-button svg { position: relative; z-index: 1; }
+
+  // ============================================================
+  // VARIANT — Tour (video-style)
+  // ============================================================
+  &--tour {
+    position: relative;
+    background: $color-text-dark;
+    color: $color-white;
+    overflow: hidden;
+  }
+
+  &__tour-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba($color-text-dark, 0.75), rgba($color-text-dark, 0.3)),
+      linear-gradient(180deg, transparent 40%, rgba($color-text-dark, 0.6));
+    pointer-events: none;
+  }
+
+  &__tour-inner {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    padding: $spacing-lg $spacing-xl;
+    height: 100%;
+
+    @media (min-width: 1024px) { padding: $spacing-xl $spacing-2xl; }
+  }
+
+  &__tour-play {
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1px solid rgba($color-white, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($color-white, 0.08);
+    backdrop-filter: blur(10px);
+    color: $color-white;
+    transition: all 0.4s ease;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      margin-left: 4px;
+      transition: transform 0.4s ease;
+    }
+
+    .bento--tour:hover & {
+      background: $color-white;
+      color: $color-text-dark;
+      transform: scale(1.08);
+    }
+  }
+
+  &__tour-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__tour-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 0.56rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: $color-primary-light;
+  }
+
+  &__tour-label-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $color-primary-light;
+    animation: arch-pulse 2s ease-in-out infinite;
+  }
+
+  &__tour-title {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    line-height: 1;
+    color: $color-white;
+    margin: 0;
+    letter-spacing: -0.01em;
+
+    em {
+      font-style: italic;
+      color: $color-primary-light;
+    }
+  }
+
+  &__tour-desc {
+    font-family: $font-primary;
+    font-size: 0.8rem;
+    color: rgba($color-white, 0.7);
+    margin: 0;
+  }
+
+  &__tour-arrow {
+    width: 20px;
+    height: 20px;
+    color: $color-white;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: all 0.4s ease;
+
+    .bento--tour:hover & {
+      opacity: 1;
+      transform: translate(4px, -4px);
+    }
+  }
+
+  // ============================================================
+  // VARIANT — Newsletter
+  // ============================================================
+  &--newsletter {
+    padding: $spacing-lg;
+    background:
+      linear-gradient(135deg, $color-secondary-light 0%, $color-cream 100%);
+    gap: $spacing-sm;
+
+    @media (min-width: 1024px) { padding: $spacing-xl; }
+  }
+
+  &__news-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
+  &__news-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: $color-primary-dark;
+  }
+
+  &__news-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-primary;
+    box-shadow: 0 0 10px rgba($color-primary, 0.5);
+    animation: arch-pulse 2s ease-in-out infinite;
+  }
+
+  &__news-count {
+    font-family: $font-mono;
+    font-size: 0.54rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__news-title {
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    line-height: 1.05;
+    color: $color-text-dark;
+    letter-spacing: -0.01em;
+    margin: 0;
+
+    em {
+      font-style: italic;
+      color: $color-primary-dark;
+    }
+  }
+
+  &__news-desc {
+    font-family: $font-primary;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: $color-text-medium;
+    margin: 0;
+    max-width: 520px;
+  }
+
+  &__news-form {
+    display: flex;
+    gap: $spacing-xs;
+    margin-top: auto;
+    padding: 4px;
+    background: rgba($color-white, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba($color-text-dark, 0.08);
+    border-radius: $border-radius-pill;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus-within {
+      border-color: rgba($color-primary, 0.5);
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    }
+  }
+
+  &__news-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0 $spacing-md;
+    font-family: $font-primary;
+    font-size: 0.9rem;
+    color: $color-text-dark;
+    letter-spacing: 0.01em;
+
+    &::placeholder {
+      color: $color-text-muted;
+      font-style: italic;
+    }
+
+    &:focus { outline: none; }
+  }
+
+  &__news-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: $spacing-sm $spacing-lg;
+    border: none;
+    border-radius: $border-radius-pill;
+    background: $color-text-dark;
+    color: $color-white;
+    font-family: $font-primary;
+    font-size: 0.68rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease, gap 0.3s ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background: $color-primary-dark;
+      gap: 12px;
+      svg { transform: translateX(3px); }
+    }
+  }
+
+  &__news-legal {
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    padding-top: 4px;
+  }
+
+  // ============================================================
+  // VARIANT — Instagram
+  // ============================================================
+  &--ig {
+    padding: $spacing-md;
+    background: $color-warm-white;
+    gap: $spacing-sm;
+  }
+
+  &__ig-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__ig-handle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    color: $color-text-dark;
+    font-weight: $font-weight-medium;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__ig-count {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1rem;
+    color: $color-primary-dark;
+  }
+
+  &__ig-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    flex: 1;
+  }
+
+  &__ig-cell {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    aspect-ratio: 1;
+    transition: transform 0.4s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    &:hover {
+      transform: scale(1.04);
+      img { transform: scale(1.1); }
+    }
+  }
+
+  // ============================================================
+  // VARIANT — Download
+  // ============================================================
+  &--download {
+    padding: $spacing-md;
+    background: $color-warm-white;
+    gap: 6px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  &__dl-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba($color-primary, 0.12);
+    color: $color-primary-dark;
+    margin-bottom: $spacing-xs;
+
+    svg { width: 22px; height: 22px; }
+
+    .bento--download:hover & {
+      background: rgba($color-primary, 0.2);
+    }
+  }
+
+  &__dl-eyebrow {
+    font-family: $font-mono;
+    font-size: 0.52rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__dl-title {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: $font-weight-regular;
+    color: $color-text-dark;
+    letter-spacing: 0.005em;
+  }
+
+  &__dl-meta {
+    font-family: $font-mono;
+    font-size: 0.52rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin-bottom: $spacing-sm;
+  }
+
+  // ============================================================
+  // VARIANT — Signature (Hecho en París)
+  // ============================================================
+  &--signature {
+    padding: $spacing-md;
+    background: $color-text-dark;
+    color: $color-white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    position: relative;
+  }
+
+  &__sig-ornament {
+    color: $color-primary-light;
+    font-size: 1.2rem;
+    margin-bottom: $spacing-xs;
+    animation: arch-spin 18s linear infinite;
+  }
+
+  &__sig-eyebrow {
+    font-family: $font-mono;
+    font-size: 0.52rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.55);
+  }
+
+  &__sig-place {
+    font-family: $font-heading;
+    font-style: italic;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 1;
+    color: $color-white;
+    letter-spacing: -0.01em;
+    margin: 2px 0;
+  }
+
+  &__sig-sub {
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    color: $color-primary-light;
+  }
+
+  &__sig-line {
+    width: 40px;
+    height: 1px;
+    background: rgba($color-white, 0.3);
+    margin: $spacing-xs 0;
+  }
+
+  &__sig-meta {
+    font-family: $font-mono;
+    font-size: 0.48rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba($color-white, 0.5);
+  }
+}
+
+// ============================================================
+// OUTRO
+// ============================================================
+
+.arch-outro {
+  padding: $spacing-4xl 0 $spacing-5xl;
+  text-align: center;
+
+  @include container;
+
+  &__quote {
+    margin: 0 auto $spacing-xl;
+    font-family: $font-heading;
+    font-weight: $font-weight-light;
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+    line-height: 1.15;
+    color: $color-text-dark;
+    letter-spacing: -0.01em;
+    max-width: 900px;
+
+    em {
+      font-style: italic;
+      background: linear-gradient(110deg, $color-primary-light, $color-primary, $color-accent);
+      background-size: 220% 220%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: arch-shimmer 6s ease-in-out infinite;
+    }
+  }
+
+  &__line {
+    display: block;
+    overflow: hidden;
+    padding: 0.05em 0.02em;
+  }
+
+  &__inner { display: inline-block; }
+
+  &__letter {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  &__sign {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-md;
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+  }
+
+  &__sign-line {
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: rgba($color-text-dark, 0.2);
+  }
+}
+
+// ============================================================
+// KEYFRAMES
+// ============================================================
+
+@keyframes arch-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes arch-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+
+@keyframes arch-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

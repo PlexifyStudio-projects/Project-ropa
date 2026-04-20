@@ -1,0 +1,17 @@
+// ============================================================
+// MAIN STYLESHEET — Stelar · Entry Point
+// ============================================================
+
+// --- Base ---
+@use 'base/typography';
+@use 'base/reset';
+
+// --- Components ---
+@use 'components/header';
+@use 'components/hero';
+@use 'components/collections';
+@use 'components/atelier';
+@use 'components/musas';
+@use 'components/archivo';
+@use 'components/contacto';
+@use 'components/footer';

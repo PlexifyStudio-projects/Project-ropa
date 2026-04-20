@@ -1,0 +1,559 @@
+@use '../abstracts' as *;
+
+// ============================================================
+// HEADER — Stelar · Editorial Luxury · Trends 2026
+// ============================================================
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: $z-index-header;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+
+  // ── Scrolled state ──
+  &--scrolled {
+    background: rgba($color-white, 0.92);
+    backdrop-filter: blur(32px) saturate(1.5);
+    box-shadow: 0 8px 40px rgba($color-text-dark, 0.05);
+
+    .header__logo-text { color: $color-text-dark; }
+    .header__logo-sub { color: $color-primary-dark; }
+    .header__link-label { color: $color-text-medium; }
+    .header__link-index { color: rgba($color-text-dark, 0.25); }
+    .header__link:hover .header__link-label { color: $color-text-dark; }
+    .header__link:hover .header__link-index { color: $color-primary; }
+    .header__icon-btn { color: $color-text-dark; border-color: rgba($color-text-dark, 0.12); }
+
+    .header__cta {
+      background: $color-text-dark;
+      border-color: $color-text-dark;
+      color: $color-white;
+
+      &::before { background: $color-primary; }
+    }
+
+    .header__burger-bar,
+    .header__burger-bar::before,
+    .header__burger-bar::after { background: $color-text-dark; }
+  }
+}
+
+// ============================================================
+// MAIN HEADER BAR
+// ============================================================
+
+.header__main {
+  padding: 14px 0;
+  transition: padding 0.4s ease;
+
+  @include respond-to(md) { padding: 16px 0; }
+  @include respond-to(lg) { padding: 18px 0; }
+
+  .header--scrolled & {
+    padding: 10px 0;
+    @include respond-to(md) { padding: 12px 0; }
+  }
+}
+
+.header__wrap {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  @include respond-to(sm) { padding-inline: $spacing-lg; }
+  @include respond-to(md) { padding-inline: $spacing-lg; gap: 16px; }
+  @include respond-to(lg) { padding-inline: $spacing-xl; gap: 20px; }
+  @include respond-to(xl) { padding-inline: $container-padding; }
+}
+
+// ── LOGO ──
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  &:hover {
+    .header__logo-star { transform: rotate(15deg) scale(1.08); }
+    .header__logo-text { letter-spacing: 0.32em; }
+  }
+}
+
+.header__logo-star {
+  width: 34px;
+  height: 34px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 2px 8px rgba($color-primary, 0.15));
+  }
+
+  @include respond-to(md) { width: 38px; height: 38px; }
+  @include respond-to(lg) { width: 42px; height: 42px; }
+}
+
+.header__logo-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1;
+}
+
+.header__logo-text {
+  font-family: $font-heading;
+  font-size: 1.35rem;
+  font-weight: $font-weight-light;
+  color: $color-text-dark;
+  letter-spacing: 0.28em;
+  line-height: 1;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @include respond-to(md) { font-size: 1.5rem; letter-spacing: 0.3em; }
+  @include respond-to(lg) { font-size: 1.65rem; }
+}
+
+.header__logo-sub {
+  font-family: $font-mono;
+  font-size: 0.46rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: $color-primary;
+  opacity: 0.75;
+  transition: color 0.5s ease;
+  line-height: 1;
+  padding-top: 2px;
+
+  @include respond-to(md) { font-size: 0.5rem; }
+}
+
+// ── NAV ──
+.header__nav {
+  display: none;
+
+  @media (min-width: 900px) {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  @include respond-to(lg) { gap: 4px; }
+  @include respond-to(xl) { gap: 6px; }
+}
+
+.header__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  will-change: transform;
+  border-radius: $border-radius-pill;
+  overflow: hidden;
+  transition: color 0.35s ease;
+
+  @include respond-to(lg) { padding: 12px 18px; }
+  @include respond-to(xl) { padding: 12px 20px; }
+
+  &:hover {
+    .header__link-label { color: $color-text-dark; }
+    .header__link-index { color: $color-primary; opacity: 1; }
+    .header__link-underline { transform: scaleX(1); }
+  }
+}
+
+.header__link-fill {
+  position: absolute;
+  inset: 0;
+  background: rgba($color-primary, 0.06);
+  border-radius: inherit;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  z-index: 0;
+}
+
+.header__link-index {
+  font-family: $font-mono;
+  font-size: 0.46rem;
+  color: rgba($color-text-dark, 0.2);
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
+  display: none;
+
+  @include respond-to(lg) { display: inline; font-size: 0.48rem; }
+}
+
+.header__link-label {
+  font-family: $font-primary;
+  font-size: 0.7rem;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $color-text-light;
+  transition: color 0.4s ease;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+
+  @include respond-to(lg) { font-size: 0.72rem; letter-spacing: 0.1em; }
+  @include respond-to(xl) { font-size: 0.74rem; }
+}
+
+.header__link-underline {
+  position: absolute;
+  bottom: 4px;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: $color-primary;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+
+  @include respond-to(lg) { left: 18px; right: 18px; }
+  @include respond-to(xl) { left: 20px; right: 20px; }
+}
+
+// ── ACTIONS ──
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  @include respond-to(md) { gap: 8px; }
+  @include respond-to(lg) { gap: 10px; }
+}
+
+.header__icon-btn {
+  position: relative;
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba($color-text-dark, 0.1);
+  background: transparent;
+  color: $color-text-medium;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (min-width: 900px) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include respond-to(lg) { width: 40px; height: 40px; }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.35s ease;
+
+    @include respond-to(lg) { width: 17px; height: 17px; }
+  }
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary-dark;
+    background: rgba($color-primary, 0.06);
+    transform: translateY(-2px);
+
+    svg { transform: scale(1.1); }
+  }
+}
+
+.header__icon-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 50%;
+  background: $color-primary;
+  color: $color-white;
+  font-family: $font-mono;
+  font-size: 0.5rem;
+  font-weight: $font-weight-medium;
+  line-height: 16px;
+  text-align: center;
+  border: 2px solid $color-warm-white;
+}
+
+// ── CTA ──
+.header__cta {
+  display: none;
+
+  @media (min-width: 900px) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    font-family: $font-primary;
+    font-size: 0.66rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    text-decoration: none;
+    border: 1px solid rgba($color-text-dark, 0.15);
+    border-radius: $border-radius-pill;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+    flex-shrink: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: $color-text-dark;
+      border-radius: inherit;
+      transform: scaleY(0);
+      transform-origin: bottom center;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+    }
+
+    &:hover {
+      color: $color-white;
+      border-color: $color-text-dark;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba($color-text-dark, 0.12);
+
+      &::before { transform: scaleY(1); }
+
+      .header__cta-icon { transform: translate(4px, -4px); }
+    }
+  }
+
+  @include respond-to(lg) { padding: 12px 26px; font-size: 0.68rem; }
+  @include respond-to(xl) { padding: 13px 30px; font-size: 0.7rem; }
+}
+
+.header__cta-label { position: relative; z-index: 1; }
+
+.header__cta-icon {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  svg { width: 100%; height: 100%; }
+
+  @include respond-to(lg) { width: 15px; height: 15px; }
+}
+
+// ── BURGER ──
+.header__burger {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba($color-text-dark, 0.12);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  @include respond-to(sm) { width: 44px; height: 44px; }
+
+  &:hover {
+    border-color: rgba($color-primary, 0.35);
+    background: rgba($color-primary, 0.05);
+    transform: scale(1.05);
+  }
+
+  @media (min-width: 900px) { display: none; }
+}
+
+.header__burger-bar {
+  width: 18px;
+  height: 1.5px;
+  background: $color-text-dark;
+  position: relative;
+  transition: background 0.2s;
+
+  @include respond-to(sm) { width: 20px; }
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 1.5px;
+    background: $color-text-dark;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &::before { top: -6px; width: 100%; }
+  &::after { bottom: -6px; width: 60%; }
+
+  &--open {
+    background: transparent;
+    &::before { width: 100%; transform: rotate(45deg) translate(4.5px, 4.5px); }
+    &::after { width: 100%; transform: rotate(-45deg) translate(4.5px, -4.5px); }
+  }
+}
+
+// ============================================================
+// MOBILE NAV
+// ============================================================
+
+.header__mob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: $z-index-header - 1;
+  background: rgba($color-white, 0.98);
+  backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 100px $spacing-lg $spacing-xl;
+  gap: 0;
+  clip-path: inset(0 0 100% 0);
+
+  @include respond-to(sm) { padding: 120px $spacing-2xl $spacing-2xl; }
+  @media (min-width: 900px) { display: none !important; }
+}
+
+.header__mob-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid rgba($color-text-dark, 0.1);
+  margin-bottom: $spacing-md;
+  font-family: $font-mono;
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+.header__mob-label {
+  color: $color-text-dark;
+  font-weight: $font-weight-medium;
+}
+
+.header__mob-link {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba($color-text-dark, 0.04);
+  transition: all 0.35s ease;
+
+  @include respond-to(sm) { padding: $spacing-lg 0; gap: $spacing-lg; }
+
+  &:last-of-type { border-bottom: none; }
+
+  &:hover {
+    padding-left: $spacing-md;
+    .header__mob-index { color: $color-primary; }
+    .header__mob-arrow { opacity: 1; transform: translate(0, 0); }
+    span:nth-child(2) { color: $color-primary; }
+  }
+
+  span:nth-child(2) {
+    font-family: $font-heading;
+    font-style: italic;
+    font-size: 1.8rem;
+    font-weight: $font-weight-light;
+    color: $color-text-dark;
+    letter-spacing: 0.005em;
+    flex: 1;
+    transition: color 0.3s ease;
+
+    @include respond-to(sm) { font-size: 2.4rem; }
+  }
+}
+
+.header__mob-index {
+  font-family: $font-mono;
+  font-size: 0.58rem;
+  color: $color-text-muted;
+  letter-spacing: 0.22em;
+  min-width: 28px;
+  transition: color 0.3s ease;
+}
+
+.header__mob-arrow {
+  width: 18px;
+  height: 18px;
+  color: $color-primary;
+  opacity: 0;
+  transform: translate(-8px, 8px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @include respond-to(sm) { width: 22px; height: 22px; }
+}
+
+.header__mob-foot {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding-top: $spacing-lg;
+  border-top: 1px solid rgba($color-text-dark, 0.1);
+  margin-top: auto;
+}
+
+.header__mob-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  font-family: $font-primary;
+  font-size: 0.72rem;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $color-white;
+  background: $color-text-dark;
+  border-radius: $border-radius-pill;
+  text-decoration: none;
+  transition: gap 0.3s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    gap: $spacing-md;
+    svg { transform: translate(3px, -3px); }
+  }
+}
+
+.header__mob-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: $font-mono;
+  font-size: 0.52rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
