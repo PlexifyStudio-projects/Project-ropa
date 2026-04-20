@@ -1,15 +1,17 @@
+import { lazy, Suspense } from 'react';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
-import Collections from './components/Collections/Collections';
-import Atelier from './components/Atelier/Atelier';
-import Musas from './components/Musas/Musas';
-import Archivo from './components/Archivo/Archivo';
-import Contacto from './components/Contacto/Contacto';
-import Footer from './components/Footer/Footer';
+
+const Collections = lazy(() => import('./components/Collections/Collections'));
+const Atelier = lazy(() => import('./components/Atelier/Atelier'));
+const Musas = lazy(() => import('./components/Musas/Musas'));
+const Archivo = lazy(() => import('./components/Archivo/Archivo'));
+const Contacto = lazy(() => import('./components/Contacto/Contacto'));
+const Footer = lazy(() => import('./components/Footer/Footer'));
 
 function App() {
   return (
-    <>
+    <Suspense fallback={null}>
       <Header />
       <main>
         <Hero />
@@ -20,7 +22,7 @@ function App() {
         <Contacto />
       </main>
       <Footer />
-    </>
+    </Suspense>
   );
 }
 

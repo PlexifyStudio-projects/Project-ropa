@@ -9,6 +9,28 @@
   background: $color-text-dark;
   color: $color-white;
   overflow: hidden;
+
+  // Accessibility helper
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // Scoped focus ring (dark background)
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid $color-primary-light;
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
 }
 
 // ============================================================
@@ -286,6 +308,24 @@
     }
 
     &:focus { outline: none; }
+
+    &:not(:placeholder-shown):invalid {
+      color: $color-primary-light;
+      box-shadow: inset 0 -2px 0 rgba($color-primary-light, 0.55);
+    }
+  }
+
+  &__status {
+    display: block;
+    min-height: 1em;
+    padding-top: 6px;
+    font-family: $font-mono;
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-primary-light;
+
+    &:empty { display: none; }
   }
 
   &__btn {
@@ -464,12 +504,20 @@
   }
 
   &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: $spacing-xs;
     flex: 1;
 
     @include respond-to(md) { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  &__li {
+    list-style: none;
+    display: block;
   }
 
   &__item {
@@ -616,6 +664,7 @@
 
       &:hover { color: $color-primary-light; }
 
+      &[aria-pressed='true'],
       &.is-active {
         color: $color-white;
         font-weight: $font-weight-medium;
@@ -628,6 +677,12 @@
     span {
       color: rgba($color-white, 0.3);
     }
+  }
+
+  &__lang-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 }
 
@@ -710,4 +765,17 @@
 @keyframes foot-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+// ============================================================
+// REDUCED MOTION
+// ============================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .footer,
+  .footer * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

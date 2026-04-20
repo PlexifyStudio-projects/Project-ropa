@@ -12,9 +12,16 @@ const HERO_IMG = {
   mobile:    'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&h=1200&fit=crop&q=85&auto=format',
 };
 
+const HERO_ALT = {
+  main:      'Model in pleated silk gown — Spring SS26 editorial campaign by Stelar Atelier',
+  secondary: 'Hand-stitched couture detail — artisan tailoring at the Stelar atelier in Bucaramanga',
+  accent:    'Essential silhouette from the Stelar SS26 capsule — draped neutral fabric study',
+  mobile:    'Stelar SS26 campaign portrait — quiet couture editorial, Bucaramanga atelier',
+};
+
 const splitLetters = (text) =>
   text.split('').map((char, i) => (
-    <span key={i} className="hero__letter">
+    <span key={i} className="hero__letter" aria-hidden="true">
       {char === ' ' ? '\u00A0' : char}
     </span>
   ));
@@ -24,19 +31,25 @@ function MouseGlow() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Respect reduced-motion preference — skip mouse-tracked glow
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mql.matches) return;
     const xTo = gsap.quickTo(el, 'x', { duration: 0.8, ease: 'power3' });
     const yTo = gsap.quickTo(el, 'y', { duration: 0.8, ease: 'power3' });
     const handler = (e) => { xTo(e.clientX - window.innerWidth / 2); yTo(e.clientY - window.innerHeight / 2); };
     window.addEventListener('mousemove', handler);
     return () => window.removeEventListener('mousemove', handler);
   }, []);
-  return <div ref={ref} className="hero__glow" />;
+  return <div ref={ref} className="hero__glow" aria-hidden="true" />;
 }
 
 function Hero() {
   const heroRef = useRef(null);
+  const prefersReducedMotion = useRef(false);
 
   useGSAP(() => {
+    // Entrance timeline runs for everyone (tiny reveal), but continuous loops
+    // and mouse parallax are gated via gsap.matchMedia below.
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.4 });
 
     tl.fromTo('.hero__issue-item',
@@ -110,19 +123,34 @@ function Hero() {
       '-=0.4'
     );
 
-    gsap.to('.hero__card', {
-      y: -8,
-      duration: 4,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      stagger: { each: 0.5, from: 'random' },
+    // Continuous loops — only for users who are OK with motion.
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      prefersReducedMotion.current = false;
+      const cardFloat = gsap.to('.hero__card', {
+        y: -8,
+        duration: 4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        stagger: { each: 0.5, from: 'random' },
+      });
+      const ringSpin = gsap.to('.hero__ring', { rotate: 360, duration: 120, ease: 'none', repeat: -1 });
+      return () => {
+        cardFloat.kill();
+        ringSpin.kill();
+      };
     });
-    gsap.to('.hero__ring', { rotate: 360, duration: 120, ease: 'none', repeat: -1 });
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      prefersReducedMotion.current = true;
+    });
 
+    return () => mm.revert();
   }, { scope: heroRef });
 
   const handleMouseMove = useCallback((e) => {
+    // Gate parallax — skip entirely if the user prefers reduced motion.
+    if (prefersReducedMotion.current) return;
     const x = (e.clientX / window.innerWidth - 0.5) * 2;
     const y = (e.clientY / window.innerHeight - 0.5) * 2;
     gsap.to('.hero__gallery', { x: x * 10, y: y * 6, duration: 1.2, ease: 'power3.out' });
@@ -132,18 +160,24 @@ function Hero() {
   }, []);
 
   return (
-    <section ref={heroRef} className="hero" id="inicio" onMouseMove={handleMouseMove}>
-      <div className="hero__bg" />
-      <div className="hero__grid" />
-      <div className="hero__orb hero__orb--1" />
-      <div className="hero__orb hero__orb--2" />
-      <div className="hero__orb hero__orb--3" />
+    <section
+      ref={heroRef}
+      className="hero"
+      id="inicio"
+      onMouseMove={handleMouseMove}
+      aria-label="Stelar Atelier — Spring Summer 2026 collection introduction"
+    >
+      <div className="hero__bg" aria-hidden="true" />
+      <div className="hero__grid" aria-hidden="true" />
+      <div className="hero__orb hero__orb--1" aria-hidden="true" />
+      <div className="hero__orb hero__orb--2" aria-hidden="true" />
+      <div className="hero__orb hero__orb--3" aria-hidden="true" />
       <MouseGlow />
 
       {/* ═══ EDITORIAL ISSUE BAR ═══ */}
-      <div className="hero__issue">
+      <div className="hero__issue" role="group" aria-label="Issue details">
         <span className="hero__issue-item">
-          <span className="hero__issue-star">✦</span>
+          <span className="hero__issue-star" aria-hidden="true">✦</span>
           Issue N° 01
         </span>
         <span className="hero__issue-item">Spring / Summer MMXXVI</span>
@@ -154,27 +188,34 @@ function Hero() {
       <div className="hero__content">
         {/* Mobile featured image */}
         <div className="hero__mobile-img">
-          <img src={HERO_IMG.mobile} alt="Stelar Atelier" />
-          <div className="hero__mobile-img-overlay" />
-          <div className="hero__mobile-img-badge">
-            <span className="hero__mobile-img-dot" />
+          <img
+            src={HERO_IMG.mobile}
+            alt={HERO_ALT.mobile}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+          <div className="hero__mobile-img-overlay" aria-hidden="true" />
+          <div className="hero__mobile-img-badge" aria-label="Spring Summer 2026 season">
+            <span className="hero__mobile-img-dot" aria-hidden="true" />
             SS 26
           </div>
         </div>
 
-        <div className="hero__badge">
-          <span className="hero__badge-dot" />
+        <div className="hero__badge" aria-label="New Season Spring Summer 2026 — 96 pieces">
+          <span className="hero__badge-dot" aria-hidden="true" />
           <span>New Season · SS26</span>
-          <span className="hero__badge-line" />
+          <span className="hero__badge-line" aria-hidden="true" />
           <span className="hero__badge-count">96 Pieces</span>
         </div>
 
         <h1 className="hero__title">
-          <span className="hero__title-line">{splitLetters('The Art of')}</span>
-          <span className="hero__title-line">
+          <span className="sr-only">The Art of Quiet Couture.</span>
+          <span className="hero__title-line" aria-hidden="true">{splitLetters('The Art of')}</span>
+          <span className="hero__title-line" aria-hidden="true">
             <em className="hero__title-accent">{splitLetters('Quiet')}</em>
           </span>
-          <span className="hero__title-line">{splitLetters('Couture.')}</span>
+          <span className="hero__title-line" aria-hidden="true">{splitLetters('Couture.')}</span>
         </h1>
 
         <p className="hero__subtitle">
@@ -184,16 +225,35 @@ function Hero() {
         </p>
 
         <div className="hero__actions">
-          <a href="#colecciones" className="hero__btn hero__btn--primary">
-            <span className="hero__btn-bg" />
+          <a
+            href="#colecciones"
+            className="hero__btn hero__btn--primary"
+            aria-label="Explore Stelar collections"
+          >
+            <span className="hero__btn-bg" aria-hidden="true" />
             <span className="hero__btn-text">Explore Collections</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="hero__btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="hero__btn-icon" aria-hidden="true" focusable="false">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
-          <a href="#contacto" className="hero__btn hero__btn--outline">
-            <span className="hero__btn-text">Book a Fitting</span>
-          </a>
+          <div className="hero__secondary">
+            <a
+              href="#contacto"
+              className="hero__btn hero__btn--outline"
+              aria-label="Book a private fitting at the Stelar atelier"
+            >
+              <span className="hero__btn-text">Book a Fitting</span>
+            </a>
+            <span className="hero__reassurance">
+              <span className="hero__reassurance-dot" aria-hidden="true" />
+              Confidential · By invitation
+            </span>
+          </div>
+        </div>
+
+        <div className="hero__assurance" role="note" aria-label="Purchase guarantees">
+          <span className="hero__assurance-mark" aria-hidden="true">✦</span>
+          <span>Signed + Numbered · Lifetime warranty</span>
         </div>
 
         <div className="hero__meta">
@@ -211,68 +271,84 @@ function Hero() {
           </div>
         </div>
 
-        <div className="hero__stats">
+        <dl className="hero__stats" aria-label="Atelier at a glance">
           <div className="hero__stat">
-            <span className="hero__stat-num">14</span>
-            <span className="hero__stat-label">Master Artisans</span>
+            <dt className="hero__stat-label">Master Artisans</dt>
+            <dd className="hero__stat-num">14</dd>
           </div>
-          <div className="hero__stat-div" />
+          <div className="hero__stat-div" aria-hidden="true" />
           <div className="hero__stat">
-            <span className="hero__stat-num">1,200</span>
-            <span className="hero__stat-label">Hours per piece</span>
+            <dt className="hero__stat-label">Hours per piece</dt>
+            <dd className="hero__stat-num">1,200</dd>
           </div>
-          <div className="hero__stat-div" />
+          <div className="hero__stat-div" aria-hidden="true" />
           <div className="hero__stat">
-            <span className="hero__stat-num">03</span>
-            <span className="hero__stat-label">Private ateliers</span>
+            <dt className="hero__stat-label">Private ateliers</dt>
+            <dd className="hero__stat-num">03</dd>
           </div>
-        </div>
+        </dl>
       </div>
 
       {/* ═══ GALLERY ═══ */}
-      <div className="hero__gallery">
-        <div className="hero__card hero__card--main">
-          <img src={HERO_IMG.main} alt="Stelar editorial" />
-          <div className="hero__card-shine" />
-          <div className="hero__card-overlay" />
-          <span className="hero__card-tag">
-            <span className="hero__card-tag-dot" />
+      <div className="hero__gallery" aria-label="Spring Summer 2026 editorial imagery" role="group">
+        <figure className="hero__card hero__card--main">
+          <img
+            src={HERO_IMG.main}
+            alt={HERO_ALT.main}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+          <div className="hero__card-shine" aria-hidden="true" />
+          <div className="hero__card-overlay" aria-hidden="true" />
+          <figcaption className="hero__card-tag">
+            <span className="hero__card-tag-dot" aria-hidden="true" />
             Editorial · 01
-          </span>
-          <span className="hero__card-caption">
+          </figcaption>
+          <span className="hero__card-caption" aria-hidden="true">
             <em>Silhouette</em>
             <span>Pleated · Spring</span>
           </span>
-        </div>
+        </figure>
 
-        <div className="hero__card hero__card--secondary">
-          <img src={HERO_IMG.secondary} alt="Stelar couture" />
-          <div className="hero__card-shine" />
-          <div className="hero__card-overlay" />
-          <span className="hero__card-tag">Couture · 02</span>
-        </div>
+        <figure className="hero__card hero__card--secondary">
+          <img
+            src={HERO_IMG.secondary}
+            alt={HERO_ALT.secondary}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="hero__card-shine" aria-hidden="true" />
+          <div className="hero__card-overlay" aria-hidden="true" />
+          <figcaption className="hero__card-tag">Couture · 02</figcaption>
+        </figure>
 
-        <div className="hero__card hero__card--accent">
-          <img src={HERO_IMG.accent} alt="Stelar essential" />
-          <div className="hero__card-shine" />
-          <div className="hero__card-overlay" />
-          <span className="hero__card-tag">Essential · 03</span>
-        </div>
+        <figure className="hero__card hero__card--accent">
+          <img
+            src={HERO_IMG.accent}
+            alt={HERO_ALT.accent}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="hero__card-shine" aria-hidden="true" />
+          <div className="hero__card-overlay" aria-hidden="true" />
+          <figcaption className="hero__card-tag">Essential · 03</figcaption>
+        </figure>
 
-        <div className="hero__float hero__float--price">
+        <div className="hero__float hero__float--price" aria-label="Starting price, three point eight million Colombian pesos per piece">
           <span className="hero__float-small">From</span>
           <span className="hero__float-big">COP $3.8M</span>
           <span className="hero__float-tiny">per piece</span>
         </div>
 
-        <svg className="hero__ring" viewBox="0 0 300 300" fill="none">
+        <svg className="hero__ring" viewBox="0 0 300 300" fill="none" aria-hidden="true" focusable="false">
           <circle cx="150" cy="150" r="145" stroke="rgba(196,151,123,0.1)" strokeWidth="0.8" />
           <circle cx="150" cy="150" r="125" stroke="rgba(228,184,176,0.08)" strokeWidth="0.5" strokeDasharray="6 10" />
           <circle cx="150" cy="150" r="105" stroke="rgba(196,151,123,0.06)" strokeWidth="0.4" strokeDasharray="3 8" />
         </svg>
       </div>
 
-      <div className="hero__side">
+      <div className="hero__side" aria-hidden="true">
         <span>COUTURE</span>
         <span className="hero__side-dot" />
         <span>MMXXVI</span>
@@ -280,7 +356,7 @@ function Hero() {
         <span>BUCARAMANGA</span>
       </div>
 
-      <div className="hero__scroll">
+      <div className="hero__scroll" aria-hidden="true">
         <span className="hero__scroll-label">Scroll to discover</span>
         <div className="hero__scroll-track">
           <div className="hero__scroll-thumb" />

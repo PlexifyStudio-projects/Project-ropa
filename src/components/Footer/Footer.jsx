@@ -98,12 +98,15 @@ const SOCIAL = [
   },
 ];
 
+const LANGS = ['EN', 'ES', 'FR', 'IT'];
+
 function Footer() {
   const ref = useRef(null);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [showTop, setShowTop] = useState(false);
   const [year] = useState(new Date().getFullYear());
+  const [lang, setLang] = useState('EN');
 
   useGSAP(
     () => {
@@ -234,30 +237,43 @@ function Footer() {
               appointments. Only the essential — never spam.
             </p>
 
-            <form className="foot-news__form" onSubmit={handleSubscribe}>
+            <form className="foot-news__form" onSubmit={handleSubscribe} aria-describedby="foot-news-hint">
+              <label htmlFor="foot-news-email" className="visually-hidden">Email address for newsletter</label>
               <input
+                id="foot-news-email"
                 type="email"
+                name="email"
                 className="foot-news__input"
                 placeholder="you@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 required
+                aria-required="true"
               />
               <button type="submit" className="foot-news__btn">
-                <span>{subscribed ? '✓ Subscribed' : 'Join'}</span>
+                <span>{subscribed ? 'Subscribed' : 'Join'}</span>
                 {!subscribed && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true" focusable="false">
                     <path d="M5 12h14M13 6l6 6-6 6" />
                   </svg>
                 )}
               </button>
             </form>
 
-            <div className="foot-news__meta">
+            <span
+              className="foot-news__status"
+              role="status"
+              aria-live="polite"
+            >
+              {subscribed ? 'Subscription confirmed — thank you.' : ''}
+            </span>
+
+            <div id="foot-news-hint" className="foot-news__meta">
               <span>+2,400 subscribers</span>
-              <span className="foot-news__meta-dot">·</span>
+              <span className="foot-news__meta-dot" aria-hidden="true">·</span>
               <span>No spam</span>
-              <span className="foot-news__meta-dot">·</span>
+              <span className="foot-news__meta-dot" aria-hidden="true">·</span>
               <span>Unsubscribe anytime</span>
             </div>
           </div>
@@ -291,57 +307,72 @@ function Footer() {
       </div>
 
       {/* ═══ SOCIAL ═══ */}
-      <div className="foot-social">
+      <nav className="foot-social" aria-label="Social media">
         <div className="foot-social__wrap">
-          <span className="foot-social__eyebrow">Síguenos</span>
-          <div className="foot-social__list">
+          <span className="foot-social__eyebrow" id="foot-social-label">Follow us</span>
+          <ul className="foot-social__list" aria-labelledby="foot-social-label">
             {SOCIAL.map((s, i) => (
-              <a
-                key={i}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="foot-social__item"
-                aria-label={s.name}
-              >
-                <span className="foot-social__icon">{s.icon}</span>
-                <div className="foot-social__text">
-                  <span className="foot-social__name">{s.name}</span>
-                  <span className="foot-social__handle">{s.handle}</span>
-                </div>
-              </a>
+              <li key={i} className="foot-social__li">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="foot-social__item"
+                  aria-label={`${s.name} — ${s.handle} (opens in new tab)`}
+                >
+                  <span className="foot-social__icon" aria-hidden="true">{s.icon}</span>
+                  <div className="foot-social__text">
+                    <span className="foot-social__name">{s.name}</span>
+                    <span className="foot-social__handle">{s.handle}</span>
+                  </div>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-      </div>
+      </nav>
 
       {/* ═══ BOTTOM BAR ═══ */}
       <div className="foot-bottom">
-        <div className="foot-bottom__wrap">
+        <small className="foot-bottom__wrap">
           <div className="foot-bottom__left">
             <span>© {year} Atelier Stelar.</span>
-            <span className="foot-bottom__sep">·</span>
+            <span className="foot-bottom__sep" aria-hidden="true">·</span>
             <span>All rights reserved.</span>
           </div>
 
           <div className="foot-bottom__center">
-            <span className="foot-bottom__heart">✦</span>
+            <span className="foot-bottom__heart" aria-hidden="true">✦</span>
             <span>Made with obsession in</span>
             <em>Bucaramanga · Colombia</em>
           </div>
 
           <div className="foot-bottom__right">
-            <div className="foot-bottom__lang">
-              <button className="is-active">EN</button>
-              <span>·</span>
-              <button>ES</button>
-              <span>·</span>
-              <button>FR</button>
-              <span>·</span>
-              <button>IT</button>
+            <div
+              className="foot-bottom__lang"
+              role="group"
+              aria-label="Language"
+            >
+              {LANGS.map((code, i) => {
+                const isActive = lang === code;
+                return (
+                  <span key={code} className="foot-bottom__lang-item">
+                    <button
+                      type="button"
+                      className={isActive ? 'is-active' : ''}
+                      onClick={() => setLang(code)}
+                      aria-pressed={isActive}
+                      aria-label={`Switch language to ${code}`}
+                    >
+                      {code}
+                    </button>
+                    {i < LANGS.length - 1 && <span aria-hidden="true">·</span>}
+                  </span>
+                );
+              })}
             </div>
           </div>
-        </div>
+        </small>
       </div>
 
       {/* ═══ BACK TO TOP (floating) ═══ */}

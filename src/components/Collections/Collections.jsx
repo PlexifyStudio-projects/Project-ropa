@@ -16,11 +16,16 @@ const COLLECTIONS = [
     subtitle: 'Collection SS26',
     tag: 'New Season',
     img: img3,
+    imgAlt: 'Model in flowing silk dress at dawn — Spring SS26 campaign, light florals and ethereal silhouettes',
     description: 'Delicate florals, ethereal silks and silhouettes that dance with the morning breeze. An ode to light femininity and the natural movement of fabrics.',
     pieces: '42',
     materials: 'Silk · Linen · Organza',
     mood: 'Light · Floral · Serene',
     launch: 'March 2026',
+    priceFrom: 'From COP $2,500,000',
+    availability: 'Available · 42 of 42',
+    availabilityState: 'available',
+    ctaHref: '#contacto',
     palette: ['#E4B8B0', '#F5E1DB', '#C5CEBF', '#D4AD96'],
     bg: '#FBF6F2',
   },
@@ -30,11 +35,16 @@ const COLLECTIONS = [
     subtitle: 'Atelier Edition 01',
     tag: 'Exclusive',
     img: img2,
+    imgAlt: 'Hand-embroidered couture gown in atelier light — Couture Atelier Edition 01, dramatic and opulent',
     description: 'Haute couture redefined for the contemporary woman. Unique pieces crafted by hand with ancestral techniques and avant-garde vision — each garment, an unrepeatable work.',
     pieces: '18',
     materials: 'Tulle · Mikado Silk · Embroidery',
     mood: 'Dramatic · Opulent · Unique',
     launch: 'Atelier Exclusive',
+    priceFrom: 'From COP $12,000,000',
+    availability: 'Atelier only · 18 pieces',
+    availabilityState: 'exclusive',
+    ctaHref: '#contacto',
     palette: ['#2E2220', '#C4977B', '#E4B8B0', '#FBF6F2'],
     bg: '#F3EBE4',
   },
@@ -44,11 +54,16 @@ const COLLECTIONS = [
     subtitle: 'Wardrobe 2026',
     tag: 'Timeless',
     img: img1,
+    imgAlt: 'Refined cashmere knit in natural daylight — Essential Wardrobe 2026, timeless and versatile',
     description: 'The basics elevated to everyday luxury. Impeccable cuts, noble materials and a timeless palette designed to accompany every moment of your life with silent elegance.',
     pieces: '36',
     materials: 'Cashmere · Merino · Pima Cotton',
     mood: 'Timeless · Versatile · Refined',
     launch: 'Available Now',
+    priceFrom: 'From COP $1,800,000',
+    availability: 'Available · 36 of 36',
+    availabilityState: 'available',
+    ctaHref: '#atelier',
     palette: ['#E6D5CB', '#B8A9A2', '#C49B98', '#F3EBE4'],
     bg: '#FFFAF7',
   },
@@ -281,7 +296,12 @@ function Collections() {
   );
 
   return (
-    <section ref={ref} className="collections" id="colecciones">
+    <section
+      ref={ref}
+      className="collections"
+      id="colecciones"
+      aria-labelledby="collections-heading"
+    >
       <div className="collections__wrap">
         {/* ── Editorial header ── */}
         <div className="collections__header">
@@ -300,7 +320,7 @@ function Collections() {
                 Season · SS26 · Atelier
               </span>
 
-              <h2 className="col-heading">
+              <h2 id="collections-heading" className="col-heading">
                 <span className="col-heading__line">
                   <span className="col-heading__inner">{splitLetters('Discover The')}</span>
                 </span>
@@ -371,7 +391,7 @@ function Collections() {
               <div className="pin-visual__frame">
                 {COLLECTIONS.map((c, i) => (
                   <div key={i} className="pin-image-wrap">
-                    <img src={c.img} alt={c.title} className="pin-image" />
+                    <img src={c.img} alt={c.imgAlt} className="pin-image" />
                     <div className="pin-image-grain" />
                   </div>
                 ))}
@@ -415,6 +435,7 @@ function Collections() {
                       <span className="pin-panel__sub">{c.subtitle}</span>
                     </div>
                     <h3 className="pin-panel__title">{c.title}</h3>
+                    <p className="pin-panel__price">{c.priceFrom}</p>
                     <p className="pin-panel__desc">{c.description}</p>
 
                     <dl className="pin-panel__details">
@@ -436,6 +457,13 @@ function Collections() {
                       </div>
                     </dl>
 
+                    <div
+                      className={`pin-panel__availability pin-panel__availability--${c.availabilityState}`}
+                    >
+                      <span className="pin-panel__availability-dot" aria-hidden="true" />
+                      <span>{c.availability}</span>
+                    </div>
+
                     <div className="pin-panel__palette">
                       <span className="pin-panel__palette-label">Palette</span>
                       <div className="pin-panel__swatches">
@@ -450,7 +478,7 @@ function Collections() {
                       </div>
                     </div>
 
-                    <a href="#" className="pin-panel__cta">
+                    <a href={c.ctaHref} className="pin-panel__cta">
                       <span>Explore {c.title}</span>
                       <svg
                         viewBox="0 0 24 24"
@@ -459,6 +487,7 @@ function Collections() {
                         strokeWidth="1.4"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        aria-hidden="true"
                       >
                         <path d="M7 17L17 7M17 7H7M17 7v10" />
                       </svg>
@@ -493,7 +522,7 @@ function Collections() {
           {COLLECTIONS.map((c, i) => (
             <article key={i} className="pin-panel-mobile" style={{ '--accent': c.palette[0] }}>
               <div className="pin-panel-mobile__img">
-                <img src={c.img} alt={c.title} />
+                <img src={c.img} alt={c.imgAlt} />
                 <span className="pin-panel-mobile__idx">
                   {c.index} <span>/ 03</span>
                 </span>
@@ -504,24 +533,36 @@ function Collections() {
                   <span className="pin-panel__sub">{c.subtitle}</span>
                 </div>
                 <h3 className="pin-panel__title">{c.title}</h3>
+                <p className="pin-panel__price">{c.priceFrom}</p>
                 <p className="pin-panel__desc">{c.description}</p>
                 <dl className="pin-panel__details">
-                  <div className="pin-detail"><dt>Piezas</dt><dd>{c.pieces}</dd></div>
-                  <div className="pin-detail"><dt>Materia</dt><dd>{c.materials}</dd></div>
-                  <div className="pin-detail"><dt>Lanzamiento</dt><dd>{c.launch}</dd></div>
-                  <div className="pin-detail"><dt>Carácter</dt><dd>{c.mood}</dd></div>
+                  <div className="pin-detail"><dt>Pieces</dt><dd>{c.pieces}</dd></div>
+                  <div className="pin-detail"><dt>Fabric</dt><dd>{c.materials}</dd></div>
+                  <div className="pin-detail"><dt>Launch</dt><dd>{c.launch}</dd></div>
+                  <div className="pin-detail"><dt>Mood</dt><dd>{c.mood}</dd></div>
                 </dl>
+                <div
+                  className={`pin-panel__availability pin-panel__availability--${c.availabilityState}`}
+                >
+                  <span className="pin-panel__availability-dot" aria-hidden="true" />
+                  <span>{c.availability}</span>
+                </div>
                 <div className="pin-panel__palette">
                   <span className="pin-panel__palette-label">Palette</span>
                   <div className="pin-panel__swatches">
                     {c.palette.map((color, j) => (
-                      <span key={j} className="pin-swatch" style={{ backgroundColor: color }} />
+                      <span
+                        key={j}
+                        className="pin-swatch"
+                        style={{ backgroundColor: color }}
+                        title={color}
+                      />
                     ))}
                   </div>
                 </div>
-                <a href="#" className="pin-panel__cta">
+                <a href={c.ctaHref} className="pin-panel__cta">
                   <span>Explore {c.title}</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>
                 </a>

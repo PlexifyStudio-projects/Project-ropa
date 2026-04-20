@@ -37,13 +37,6 @@
   flex-direction: column;
 }
 
-// --- Grid ---
-@mixin grid($columns: 1, $gap: $spacing-lg) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: $gap;
-}
-
 // --- Container ---
 @mixin container {
   width: 100%;
@@ -68,29 +61,6 @@
   color: $color-text-medium;
 }
 
-// --- Visual effects ---
-@mixin glass-light {
-  background: rgba($color-white, 0.7);
-  backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid $color-border;
-}
-
-@mixin gradient-text {
-  background: $gradient-primary;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-@mixin hover-lift {
-  transition: transform $transition-base, box-shadow $transition-base;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: $shadow-lg;
-  }
-}
-
 // --- Buttons ---
 @mixin button-base {
   display: inline-flex;
@@ -113,16 +83,4 @@
 // --- Section ---
 @mixin section-padding {
   padding-block: $spacing-5xl;
-}
-
-// --- Animations ---
-@mixin fade-in-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity $transition-slow, transform $transition-slow;
-
-  &--visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

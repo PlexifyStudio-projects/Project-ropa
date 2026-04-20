@@ -603,6 +603,16 @@
       color: $color-primary-dark;
       svg { transform: translate(4px, -4px); }
       &::after { transform: scaleX(1.15); }
+
+      .musa__piece-label { color: $color-primary-dark; }
+      .musa__piece-name { color: $color-primary-dark; }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-dark;
+      outline-offset: 6px;
+      border-radius: 2px;
+      color: $color-primary-dark;
     }
   }
 
@@ -612,6 +622,7 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: $color-text-muted;
+    transition: color 0.4s ease;
   }
 
   &__piece-name {
@@ -620,6 +631,7 @@
     font-size: 1.05rem;
     font-weight: $font-weight-regular;
     letter-spacing: 0.005em;
+    transition: color 0.4s ease;
 
     @include respond-to(md) { font-size: 1.15rem; }
   }
@@ -720,4 +732,17 @@
 @keyframes musa-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+// ============================================================
+// REDUCED MOTION — baseline accessibility
+// ============================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .musas,
+  .musas * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

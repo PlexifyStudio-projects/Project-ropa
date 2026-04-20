@@ -65,6 +65,7 @@ const SHOWROOMS = [
     hours: 'Mon–Sat · 10:00 – 19:00',
     contact: 'Isabel Stelar',
     phone: '+57 312 555 01 26',
+    phoneHref: 'tel:+573125550126',
     timezone: 'COT',
     tag: 'Main Atelier',
   },
@@ -75,6 +76,7 @@ const SHOWROOMS = [
     hours: 'Tue–Fri · Appointment only',
     contact: 'Marie Dubois',
     phone: '+57 312 555 02 26',
+    phoneHref: 'tel:+573125550226',
     timezone: 'COT',
     tag: 'Production Studio',
   },
@@ -85,6 +87,7 @@ const SHOWROOMS = [
     hours: 'Wed–Sat · 11:00 – 20:00',
     contact: 'Celeste Ayala',
     phone: '+57 312 555 03 26',
+    phoneHref: 'tel:+573125550326',
     timezone: 'COT',
     tag: 'SS26 Pop-up',
   },
@@ -274,7 +277,7 @@ function Contacto() {
   };
 
   return (
-    <section ref={ref} className="contacto" id="contacto">
+    <section ref={ref} className="contacto" id="contacto" aria-labelledby="contacto-heading">
       {/* ═══ HEADER ═══ */}
       <header className="cont-header">
         <div className="cont-header__wrap">
@@ -286,7 +289,7 @@ function Contacto() {
             <span className="cont-header__tag">Chapter VI · Your Turn</span>
           </div>
 
-          <h2 className="cont-header__heading">
+          <h2 id="contacto-heading" className="cont-header__heading">
             <span className="cont-header__line">
               <span className="cont-header__line-inner">{splitLetters('Let\u2019s Speak')}</span>
             </span>
@@ -390,7 +393,9 @@ function Contacto() {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Isabel Stelar"
+                    autoComplete="name"
                     required
+                    aria-required="true"
                   />
                 </div>
 
@@ -406,7 +411,9 @@ function Contacto() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="you@email.com"
+                    autoComplete="email"
                     required
+                    aria-required="true"
                   />
                 </div>
               </div>
@@ -425,6 +432,9 @@ function Contacto() {
                     value={form.phone}
                     onChange={handleChange}
                     placeholder="+57 312 555 01 26"
+                    autoComplete="tel"
+                    pattern="[+0-9\s\-()]{7,}"
+                    inputMode="tel"
                   />
                 </div>
 
@@ -440,6 +450,7 @@ function Contacto() {
                     value={form.city}
                     onChange={handleChange}
                     placeholder="Bogotá"
+                    autoComplete="address-level2"
                   />
                 </div>
               </div>
@@ -485,9 +496,14 @@ function Contacto() {
                   onChange={handleChange}
                   placeholder="The occasion, the silhouette you imagine, what you feel this piece should tell..."
                   required
+                  aria-required="true"
+                  aria-describedby="cont-privacy-note"
                 />
-                <span className="cont-field__count">
+                <span className="cont-field__count" aria-live="polite">
                   {form.message.length} characters
+                </span>
+                <span id="cont-privacy-note" className="cont-field__privacy">
+                  We&rsquo;ll never share your email. See our <a href="#privacy">Privacy policy</a>.
                 </span>
               </div>
 
@@ -510,20 +526,32 @@ function Contacto() {
                   type="submit"
                   className={`cont-submit cont-submit--${status}`}
                   disabled={status !== 'idle'}
+                  aria-describedby="cont-submit-status"
                 >
                   <span className="cont-submit__bg" />
                   <span className="cont-submit__text">
                     {status === 'idle' && 'Send message'}
                     {status === 'sending' && 'Sending...'}
-                    {status === 'sent' && '✓ Received — thank you'}
+                    {status === 'sent' && 'Received — thank you'}
                   </span>
                   {status === 'idle' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                       <line x1="22" y1="2" x2="11" y2="13" />
                       <polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
                   )}
                 </button>
+              </div>
+
+              <div
+                id="cont-submit-status"
+                className="cont-form__live"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {status === 'sending' && 'Sending your message, please wait.'}
+                {status === 'sent' && 'Message received. We will reply within 24 hours.'}
               </div>
             </form>
           </div>
@@ -544,7 +572,7 @@ function Contacto() {
                     href={c.href}
                     className="cont-channel"
                     target={c.href.startsWith('http') ? '_blank' : undefined}
-                    rel={c.href.startsWith('http') ? 'noreferrer' : undefined}
+                    rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   >
                     <span className="cont-channel__icon">{c.icon}</span>
                     <div className="cont-channel__text">
@@ -593,11 +621,13 @@ function Contacto() {
                       </div>
                       <div>
                         <dt>Phone</dt>
-                        <dd>{s.phone}</dd>
+                        <dd>
+                          <a href={s.phoneHref} className="cont-showroom__phone">{s.phone}</a>
+                        </dd>
                       </div>
                     </dl>
 
-                    <a href="#agenda" className="cont-showroom__cta">
+                    <a href="#contacto" className="cont-showroom__cta">
                       <span>Book private visit</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M7 17L17 7M17 7H7M17 7v10" />
@@ -645,20 +675,20 @@ function Contacto() {
       </div>
 
       {/* ═══ BOTTOM BANNER ═══ */}
-      <div className="cont-bottom">
-        <div className="cont-bottom__wrap">
+      <aside className="cont-bottom" aria-label="Privacy and service commitments">
+        <small className="cont-bottom__wrap">
           <span className="cont-bottom__item">
-            <span className="cont-bottom__dot" />
+            <span className="cont-bottom__dot" aria-hidden="true" />
             Private · Confidential
           </span>
-          <span className="cont-bottom__sep">·</span>
+          <span className="cont-bottom__sep" aria-hidden="true">·</span>
           <span className="cont-bottom__item">Reply within 24 hours</span>
-          <span className="cont-bottom__sep">·</span>
+          <span className="cont-bottom__sep" aria-hidden="true">·</span>
           <span className="cont-bottom__item">GDPR & data protected</span>
-          <span className="cont-bottom__sep">·</span>
+          <span className="cont-bottom__sep" aria-hidden="true">·</span>
           <span className="cont-bottom__item">Atelier Stelar · MMXXVI</span>
-        </div>
-      </div>
+        </small>
+      </aside>
     </section>
   );
 }

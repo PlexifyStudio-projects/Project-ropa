@@ -27,6 +27,7 @@ const MUSAS = [
     quote: 'I do not dress to be seen. I dress to feel the fabric breathe with me.',
     museName: 'Sofía · 28',
     museOrigin: 'Bucaramanga · Private Studio',
+    imageAlt: 'Portrait of the Romantic muse in diffuse dawn light — Sofía in silk, Spring SS26 archetype',
     traits: [
       { label: 'Hour', value: 'Dawn' },
       { label: 'Light', value: 'Diffuse · Golden' },
@@ -34,7 +35,12 @@ const MUSAS = [
       { label: 'Geography', value: 'Andes East' },
     ],
     piece: 'Ether Dress · Spring SS26',
-    palette: ['#E4B8B0', '#F5E1DB', '#D4AD96', '#FBF6F2'],
+    palette: [
+      { hex: '#E4B8B0', name: 'Rose Blush' },
+      { hex: '#F5E1DB', name: 'Petal Cream' },
+      { hex: '#D4AD96', name: 'Warm Sand' },
+      { hex: '#FBF6F2', name: 'Soft Ivory' },
+    ],
     image: MUSE_IMAGES.romantica,
     bg: '#FBF6F2',
     layout: 'right',
@@ -51,6 +57,7 @@ const MUSAS = [
     quote: 'Elegance is never shouted. It is built in every invisible seam.',
     museName: 'Eleonora · 41',
     museOrigin: 'Bucaramanga · Private House',
+    imageAlt: 'Portrait of the Sovereign muse in theatrical twilight contrast — Eleonora in couture gown, Atelier archetype',
     traits: [
       { label: 'Hour', value: 'Twilight' },
       { label: 'Light', value: 'Theatrical · Contrast' },
@@ -58,7 +65,12 @@ const MUSAS = [
       { label: 'Geography', value: 'Highland City' },
     ],
     piece: 'Opus Gown · Couture Atelier',
-    palette: ['#2E2220', '#C4977B', '#E4B8B0', '#FBF6F2'],
+    palette: [
+      { hex: '#2E2220', name: 'Obsidian Brown' },
+      { hex: '#C4977B', name: 'Bronze Rose' },
+      { hex: '#E4B8B0', name: 'Rose Blush' },
+      { hex: '#FBF6F2', name: 'Soft Ivory' },
+    ],
     image: MUSE_IMAGES.soberana,
     bg: '#F3EBE4',
     layout: 'left',
@@ -75,6 +87,7 @@ const MUSAS = [
     quote: 'The true is never noticed. It is intuited.',
     museName: 'Anaïs · 34',
     museOrigin: 'Bucaramanga · Own Studio',
+    imageAlt: 'Portrait of the Ethereal muse in silver washed afternoon light — Anaïs in essential knit, Wardrobe archetype',
     traits: [
       { label: 'Hour', value: 'Ambiguous afternoon' },
       { label: 'Light', value: 'Silver · Washed' },
@@ -82,7 +95,12 @@ const MUSAS = [
       { label: 'Geography', value: 'Mountain Valley' },
     ],
     piece: 'Air Ensemble · Essential Wardrobe',
-    palette: ['#E6D5CB', '#B8A9A2', '#C49B98', '#F3EBE4'],
+    palette: [
+      { hex: '#E6D5CB', name: 'Pale Oat' },
+      { hex: '#B8A9A2', name: 'Soft Taupe' },
+      { hex: '#C49B98', name: 'Dusty Rose' },
+      { hex: '#F3EBE4', name: 'Cream Linen' },
+    ],
     image: MUSE_IMAGES.eterea,
     bg: '#FFFAF7',
     layout: 'right',
@@ -99,6 +117,7 @@ const MUSAS = [
     quote: 'Fashion only interests me when I contradict it.',
     museName: 'Yuna · 26',
     museOrigin: 'Bucaramanga · Downtown Atelier',
+    imageAlt: 'Portrait of the Insurgent muse under dissonant neon at midnight — Yuna in deconstructed jacket, Transversal archetype',
     traits: [
       { label: 'Hour', value: 'Midnight' },
       { label: 'Light', value: 'Neon · Dissonant' },
@@ -106,7 +125,12 @@ const MUSAS = [
       { label: 'Geography', value: 'Urban East' },
     ],
     piece: 'Deconstructed Jacket · Limited Edition',
-    palette: ['#2E2220', '#8C6B7A', '#C4977B', '#B8A9A2'],
+    palette: [
+      { hex: '#2E2220', name: 'Obsidian Brown' },
+      { hex: '#8C6B7A', name: 'Plum Shadow' },
+      { hex: '#C4977B', name: 'Bronze Rose' },
+      { hex: '#B8A9A2', name: 'Soft Taupe' },
+    ],
     image: MUSE_IMAGES.insurgente,
     bg: '#F3EBE4',
     layout: 'left',
@@ -367,7 +391,12 @@ function Musas() {
   );
 
   return (
-    <section ref={ref} className="musas" id="musas">
+    <section
+      ref={ref}
+      className="musas"
+      id="musas"
+      aria-labelledby="musas-heading"
+    >
       {/* ── Intro ── */}
       <div className="musas-intro">
         <div className="musas-intro__wrap">
@@ -379,7 +408,7 @@ function Musas() {
             <span className="musas-intro__tag">Chapter IV · SS26</span>
           </div>
 
-          <h2 className="musas-intro__heading">
+          <h2 id="musas-heading" className="musas-intro__heading">
             <span className="musas-intro__line">
               <span className="musas-intro__line-inner">{splitLetters('Four')}</span>
             </span>
@@ -424,7 +453,7 @@ function Musas() {
             {/* Image column */}
             <div className="musa__image-col">
               <div className="musa__image-frame">
-                <img src={muse.image} alt={muse.name} className="musa__image" />
+                <img src={muse.image} alt={muse.imageAlt} className="musa__image" />
                 <div className="musa__image-grain" />
                 <div className="musa__image-corners" aria-hidden="true">
                   <span /><span /><span /><span />
@@ -487,13 +516,15 @@ function Musas() {
                     <span
                       key={j}
                       className="musa__palette-swatch"
-                      style={{ backgroundColor: c }}
+                      style={{ backgroundColor: c.hex }}
+                      title={`${c.name} · ${c.hex}`}
+                      aria-label={`${c.name} ${c.hex}`}
                     />
                   ))}
                 </div>
               </div>
 
-              <a href="#" className="musa__piece">
+              <a href="#colecciones" className="musa__piece">
                 <span className="musa__piece-label">She wears</span>
                 <span className="musa__piece-name">{muse.piece}</span>
                 <svg
@@ -503,6 +534,7 @@ function Musas() {
                   strokeWidth="1.4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>

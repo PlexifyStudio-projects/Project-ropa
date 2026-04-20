@@ -195,7 +195,7 @@ function Archivo() {
   };
 
   return (
-    <section ref={ref} className="archivo" id="archivo">
+    <section ref={ref} className="archivo" id="archivo" aria-labelledby="archivo-heading">
       {/* ═══ HEADER ═══ */}
       <header className="arch-header">
         <div className="arch-header__wrap">
@@ -207,7 +207,7 @@ function Archivo() {
             <span className="arch-header__tag">Chapter V · Visual Essay</span>
           </div>
 
-          <h2 className="arch-header__heading">
+          <h2 id="archivo-heading" className="arch-header__heading">
             <span className="arch-header__line">
               <span className="arch-header__line-inner">{splitLetters('The')}</span>
             </span>
@@ -250,7 +250,12 @@ function Archivo() {
       <div className="arch-grid">
         {/* ── A · Pieza destacada ── */}
         <a href="#colecciones" className="bento bento--a bento--image bento--link" {...tiltProps}>
-          <img src={ARCHIVO_IMG.featured} alt="Piece 001" className="bento__img" />
+          <img
+            src={ARCHIVO_IMG.featured}
+            alt="Opus Gown — featured limited-edition SS26 couture piece, full-length atelier portrait"
+            className="bento__img"
+            loading="lazy"
+          />
           <div className="bento__tint" />
           <div className="bento__shine" />
           <div className="bento__corners" aria-hidden="true">
@@ -299,10 +304,10 @@ function Archivo() {
         </a>
 
         {/* ── C · Stat 14 artisans ── */}
-        <a href="#artesanas" className="bento bento--c bento--stat bento--link" {...tiltProps}>
+        <a href="#atelier" className="bento bento--c bento--stat bento--link" {...tiltProps} aria-label="14 active artisans in the Bucaramanga atelier">
           <div className="bento__shine" />
           <span className="bento__stat-eyebrow">Living Atelier</span>
-          <span className="bento__stat-num" data-count="14">0</span>
+          <span className="bento__stat-num" data-count="14" aria-hidden="true">0</span>
           <span className="bento__stat-label">Active artisans</span>
           <span className="bento__stat-foot">Bucaramanga · Colombia</span>
           <span className="bento__tile-link bento__tile-link--sm">
@@ -312,7 +317,7 @@ function Archivo() {
         </a>
 
         {/* ── D · Manifesto quote ── */}
-        <a href="#manifiesto" className="bento bento--d bento--quote bento--link" {...tiltProps}>
+        <a href="#atelier" className="bento bento--d bento--quote bento--link" {...tiltProps}>
           <div className="bento__shine" />
           <span className="bento__quote-mark" aria-hidden="true">“</span>
           <blockquote className="bento__quote-body">
@@ -335,8 +340,13 @@ function Archivo() {
         </a>
 
         {/* ── E · Pleated silhouette ── */}
-        <a href="#archivo-08" className="bento bento--e bento--image bento--link" {...tiltProps}>
-          <img src={ARCHIVO_IMG.tall} alt="Archive 08" className="bento__img" />
+        <a href="#archivo" className="bento bento--e bento--image bento--link" {...tiltProps}>
+          <img
+            src={ARCHIVO_IMG.tall}
+            alt="Archive piece 08 — pleated spring silhouette photographed on runway"
+            className="bento__img"
+            loading="lazy"
+          />
           <div className="bento__tint" />
           <div className="bento__shine" />
           <div className="bento__corners" aria-hidden="true">
@@ -357,10 +367,10 @@ function Archivo() {
         </a>
 
         {/* ── F · Stat hours ── */}
-        <a href="#proceso" className="bento bento--f bento--stat bento--link" {...tiltProps}>
+        <a href="#atelier" className="bento bento--f bento--stat bento--link" {...tiltProps} aria-label="Over 1,200 hours of handwork per couture piece on average">
           <div className="bento__shine" />
           <span className="bento__stat-eyebrow">Time</span>
-          <span className="bento__stat-num" data-count="1200" data-suffix="+">0</span>
+          <span className="bento__stat-num" data-count="1200" data-suffix="+" aria-hidden="true">0</span>
           <span className="bento__stat-label">Hours per piece</span>
           <span className="bento__stat-foot">couture average</span>
           <span className="bento__tile-link bento__tile-link--sm">
@@ -370,8 +380,13 @@ function Archivo() {
         </a>
 
         {/* ── G · The Privilege (big CTA) ── */}
-        <article className="bento bento--g bento--cta" {...tiltProps}>
-          <img src={ARCHIVO_IMG.runway} alt="Private Atelier" className="bento__img bento__img--cta" />
+        <article className="bento bento--g bento--cta" {...tiltProps} aria-labelledby="bento-cta-title">
+          <img
+            src={ARCHIVO_IMG.runway}
+            alt="Private Atelier — backstage view of the Stelar Bucaramanga couture runway"
+            className="bento__img bento__img--cta"
+            loading="lazy"
+          />
           <div className="bento__cta-overlay" />
           <div className="bento__shine" />
           <div className="bento__corners" aria-hidden="true">
@@ -384,7 +399,7 @@ function Archivo() {
               The Privilege · By Invitation Only
             </span>
 
-            <h3 className="bento__cta-title">
+            <h3 id="bento-cta-title" className="bento__cta-title">
               <span>Private</span>
               <em>Atelier.</em>
             </h3>
@@ -418,7 +433,7 @@ function Archivo() {
                   <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </a>
-              <a href="#agenda" className="bento__cta-button bento__cta-button--ghost">
+              <a href="#contacto" className="bento__cta-button bento__cta-button--ghost">
                 <span>View calendar</span>
               </a>
             </div>
@@ -426,7 +441,7 @@ function Archivo() {
         </article>
 
         {/* ── H · Press ── */}
-        <a href="#prensa" className="bento bento--h bento--press bento--link" {...tiltProps}>
+        <a href="#contacto" className="bento bento--h bento--press bento--link" {...tiltProps}>
           <div className="bento__shine" />
           <span className="bento__press-eyebrow">Featured in</span>
           <ul className="bento__press-list">
@@ -446,10 +461,10 @@ function Archivo() {
         </a>
 
         {/* ── I · Stat showroom ── */}
-        <a href="#showrooms" className="bento bento--i bento--stat bento--link" {...tiltProps}>
+        <a href="#contacto" className="bento bento--i bento--stat bento--link" {...tiltProps} aria-label="One flagship atelier in Bucaramanga, Colombia">
           <div className="bento__shine" />
           <span className="bento__stat-eyebrow">Presence</span>
-          <span className="bento__stat-num" data-count="1">0</span>
+          <span className="bento__stat-num" data-count="1" aria-hidden="true">0</span>
           <span className="bento__stat-label">Flagship atelier</span>
           <span className="bento__stat-foot">Bucaramanga · Colombia</span>
           <span className="bento__tile-link bento__tile-link--sm">
@@ -459,8 +474,13 @@ function Archivo() {
         </a>
 
         {/* ── J · Virtual Tour ── */}
-        <a href="#tour" className="bento bento--j bento--tour bento--link" {...tiltProps}>
-          <img src={ARCHIVO_IMG.tour} alt="Virtual Tour" className="bento__img bento__img--tour" />
+        <a href="#atelier" className="bento bento--j bento--tour bento--link" {...tiltProps}>
+          <img
+            src={ARCHIVO_IMG.tour}
+            alt="Virtual tour — immersive 360-degree view of the Bucaramanga couture workshop"
+            className="bento__img bento__img--tour"
+            loading="lazy"
+          />
           <div className="bento__tour-overlay" />
           <div className="bento__shine" />
           <div className="bento__tour-inner">
@@ -488,7 +508,7 @@ function Archivo() {
         </a>
 
         {/* ── K · Newsletter ── */}
-        <article className="bento bento--k bento--newsletter" {...tiltProps}>
+        <article className="bento bento--k bento--newsletter" {...tiltProps} aria-labelledby="bento-news-title">
           <div className="bento__shine" />
           <div className="bento__news-top">
             <span className="bento__news-eyebrow">
@@ -498,7 +518,7 @@ function Archivo() {
             <span className="bento__news-count">+ 2,400 subscribers</span>
           </div>
 
-          <h3 className="bento__news-title">
+          <h3 id="bento-news-title" className="bento__news-title">
             Receive the <em>looks</em> first.
           </h3>
 
@@ -507,32 +527,53 @@ function Archivo() {
             No spam — only the essential.
           </p>
 
-          <form className="bento__news-form" onSubmit={handleSubscribe}>
+          <form className="bento__news-form" onSubmit={handleSubscribe} noValidate={false}>
+            <label htmlFor="archivo-news-email" className="visually-hidden">Email address</label>
             <input
+              id="archivo-news-email"
               type="email"
+              name="email"
               className="bento__news-input"
               placeholder="you@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               required
+              aria-required="true"
+              aria-describedby="archivo-news-legal"
             />
             <button type="submit" className="bento__news-btn">
-              <span>{subscribed ? '✓ Thank you' : 'Subscribe'}</span>
+              <span>{subscribed ? 'Thank you' : 'Subscribe'}</span>
               {!subscribed && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true" focusable="false">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               )}
             </button>
           </form>
 
-          <span className="bento__news-legal">
+          <span
+            className="bento__news-status"
+            role="status"
+            aria-live="polite"
+          >
+            {subscribed ? 'Subscription confirmed — thank you.' : ''}
+          </span>
+
+          <span id="archivo-news-legal" className="bento__news-legal">
             By subscribing you accept our privacy policy.
           </span>
         </article>
 
         {/* ── L · Instagram ── */}
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="bento bento--l bento--ig bento--link" {...tiltProps}>
+        <a
+          href="https://instagram.com/stelar.atelier"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bento bento--l bento--ig bento--link"
+          aria-label="Follow Stelar Atelier on Instagram (opens in new tab)"
+          {...tiltProps}
+        >
           <div className="bento__shine" />
           <div className="bento__ig-head">
             <span className="bento__ig-handle">
@@ -545,18 +586,18 @@ function Archivo() {
             </span>
             <span className="bento__ig-count">48.2K</span>
           </div>
-          <div className="bento__ig-grid">
+          <div className="bento__ig-grid" aria-hidden="true">
             <div className="bento__ig-cell">
-              <img src={ARCHIVO_IMG.ig1} alt="" />
+              <img src={ARCHIVO_IMG.ig1} alt="" loading="lazy" />
             </div>
             <div className="bento__ig-cell">
-              <img src={ARCHIVO_IMG.ig2} alt="" />
+              <img src={ARCHIVO_IMG.ig2} alt="" loading="lazy" />
             </div>
             <div className="bento__ig-cell">
-              <img src={ARCHIVO_IMG.ig3} alt="" />
+              <img src={ARCHIVO_IMG.ig3} alt="" loading="lazy" />
             </div>
             <div className="bento__ig-cell">
-              <img src={ARCHIVO_IMG.ig4} alt="" />
+              <img src={ARCHIVO_IMG.ig4} alt="" loading="lazy" />
             </div>
           </div>
           <span className="bento__tile-link bento__tile-link--sm">
@@ -566,7 +607,7 @@ function Archivo() {
         </a>
 
         {/* ── M · Lookbook PDF ── */}
-        <a href="#lookbook" className="bento bento--m bento--download bento--link" {...tiltProps}>
+        <a href="#contacto" className="bento bento--m bento--download bento--link" {...tiltProps} aria-label="Download SS26 Lookbook PDF, 68 pages, 24 megabytes">
           <div className="bento__shine" />
           <div className="bento__dl-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">

@@ -20,4 +20,24 @@ export default defineConfig({
       '@': path.resolve(import.meta.dirname, 'src'),
     },
   },
+  build: {
+    target: 'es2020',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
+    assetsInlineLimit: 2048,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-dom') || /[\\/]node_modules[\\/]react[\\/]/.test(id) || id.includes('scheduler')) {
+              return 'react';
+            }
+            if (id.includes('gsap') || id.includes('@gsap/react')) {
+              return 'gsap';
+            }
+          }
+        },
+      },
+    },
+  },
 });

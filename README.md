@@ -47,3 +47,18 @@ Runs `vite build` then pushes the `dist/` folder to the `gh-pages` branch via `g
 - React 19 · Vite 8 · SCSS modules
 - GSAP 3.14 with ScrollTrigger (pinned scroll, horizontal scroll, container animations, scrub)
 - @gsap/react for React hooks integration
+
+## SEO
+
+The site ships with a production-grade SEO foundation. All signals live in three files:
+
+- `index.html` — `<html lang="en">`, title (~60 chars), meta description (~155 chars), keywords, author, robots, theme-color, canonical, Open Graph (og:type, og:title, og:description, og:image, og:url, og:site_name, og:locale=en_US, image dimensions + alt), Twitter Card (summary_large_image), DNS-prefetch + preconnect for Google Fonts, and two JSON-LD blocks: **Organization** (founder: Isabel Stelar, address in Bucaramanga CO, contactPoint, sameAs Instagram) and **WebSite** with SearchAction.
+- `public/robots.txt` — allows all crawlers and points at the sitemap.
+- `public/sitemap.xml` — lists the canonical root plus the six hash-anchored sections (`#inicio`, `#colecciones`, `#atelier`, `#musas`, `#archivo`, `#contacto`).
+
+### Manual actions required
+
+1. **Drop `og-image.jpg` at `public/og-image.jpg`** (1200×630, JPG or PNG renamed to `.jpg`). Vite will copy it to `/Project-ropa/og-image.jpg` on build — the path already referenced by `<meta property="og:image">`, Twitter, and the JSON-LD Organization `image`.
+2. **Change domain** if you move off GitHub Pages: update the canonical URL, og:url, twitter:url, JSON-LD `url` fields in `index.html`, the `Sitemap:` line in `public/robots.txt`, and every `<loc>` in `public/sitemap.xml`.
+3. **Replace the Instagram placeholder** in the Organization JSON-LD `sameAs` array (`https://www.instagram.com/stelar.atelier`) with the real handle, and add any additional profiles (Pinterest, Vogue, press).
+4. **Submit** `https://PlexifyStudio-projects.github.io/Project-ropa/sitemap.xml` to Google Search Console and Bing Webmaster Tools after deploy.

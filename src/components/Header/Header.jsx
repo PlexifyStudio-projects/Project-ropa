@@ -51,6 +51,8 @@ function MagneticLink({ label, href, index }) {
   );
 }
 
+const WISHLIST_COUNT = 3;
+
 function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -94,6 +96,9 @@ function Header() {
 
   return (
     <header ref={headerRef} className={`header${scrolled ? ' header--scrolled' : ''}`}>
+      {/* Skip link — visible only on focus */}
+      <a className="header__skip-link" href="#inicio">Skip to content</a>
+
       {/* ═══ MAIN HEADER ═══ */}
       <div className="header__main">
         <div className="header__wrap">
@@ -120,7 +125,7 @@ function Header() {
           </a>
 
           {/* Nav */}
-          <nav className="header__nav">
+          <nav className="header__nav" aria-label="Primary">
             {NAV_LINKS.map(({ label, href }, i) => (
               <MagneticLink key={href} label={label} href={href} index={i} />
             ))}
@@ -128,17 +133,17 @@ function Header() {
 
           {/* Actions */}
           <div className="header__actions">
-            <button className="header__icon-btn" aria-label="Search">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+            <button type="button" className="header__icon-btn" aria-label="Search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <circle cx="11" cy="11" r="7" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
             </button>
-            <button className="header__icon-btn" aria-label="Saved">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+            <button type="button" className="header__icon-btn" aria-label={`Saved items (${WISHLIST_COUNT})`}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.29 1.51 4.04 3 5.5l7 7z" />
               </svg>
-              <span className="header__icon-badge">3</span>
+              <span className="header__icon-badge" aria-hidden="true">{WISHLIST_COUNT}</span>
             </button>
 
             <a href="#contacto" className="header__cta">
@@ -151,7 +156,14 @@ function Header() {
             </a>
 
             {/* Burger */}
-            <button className="header__burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
+            <button
+              type="button"
+              className="header__burger"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+            >
               <span className={`header__burger-bar${mobileOpen ? ' header__burger-bar--open' : ''}`} />
             </button>
           </div>
@@ -159,7 +171,13 @@ function Header() {
       </div>
 
       {/* Mobile */}
-      <nav ref={mobileRef} className={`header__mob${mobileOpen ? ' header__mob--open' : ''}`}>
+      <nav
+        ref={mobileRef}
+        id="mobile-nav"
+        aria-label="Mobile primary"
+        aria-hidden={!mobileOpen}
+        className={`header__mob${mobileOpen ? ' header__mob--open' : ''}`}
+      >
         <div className="header__mob-head">
           <span className="header__mob-label">Menu</span>
           <span className="header__mob-count">{NAV_LINKS.length} destinations</span>

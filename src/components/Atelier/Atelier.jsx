@@ -26,6 +26,7 @@ const SCENES = [
     roman: 'I',
     act: 'Act One',
     word: 'Sketch',
+    imageAlt: 'Sketchbook on drafting table — Act One: Sketch, silhouette research in graphite and watercolor',
     subtitle: 'The first gesture',
     duration: 'iii weeks',
     timeMark: '08:47 · North Atelier',
@@ -61,6 +62,7 @@ const SCENES = [
     roman: 'II',
     act: 'Act Two',
     word: 'Threads',
+    imageAlt: 'Spools of Italian silk and Belgian linen on the material table — Act Two: Threads, sourcing noble fibers',
     subtitle: 'The raw material',
     duration: 'ii weeks',
     timeMark: '10:22 · Material Table',
@@ -96,6 +98,7 @@ const SCENES = [
     roman: 'III',
     act: 'Act Three',
     word: 'Cut',
+    imageAlt: 'Hand-drawn patterns and shears on kraft paper — Act Three: Cut, precision patternmaking and moulage',
     subtitle: 'The precision',
     duration: 'i week',
     timeMark: '14:03 · Pattern Table',
@@ -131,6 +134,7 @@ const SCENES = [
     roman: 'IV',
     act: 'Act Four',
     word: 'Stitch',
+    imageAlt: 'Artisan hands working Luneville embroidery at the needle room — Act Four: Stitch, centuries of heritage in every gesture',
     subtitle: 'The hands that transform',
     duration: 'viii weeks',
     timeMark: '16:38 · Needle Room',
@@ -166,6 +170,7 @@ const SCENES = [
     roman: 'V',
     act: 'Final Act',
     word: 'Soul',
+    imageAlt: 'Signed and numbered garment in its origin box at the delivery salon — Final Act: Soul, the ceremonial handover',
     subtitle: 'The final instant',
     duration: 'an instant',
     timeMark: '18:56 · Delivery Salon',
@@ -663,7 +668,12 @@ function Atelier() {
   );
 
   return (
-    <section ref={ref} className="atelier" id="atelier">
+    <section
+      ref={ref}
+      className="atelier"
+      id="atelier"
+      aria-labelledby="atelier-heading"
+    >
       {/* ═══ INTRO — PLAYBILL ═══ */}
       <div className="atl-intro">
         <div className="atl-intro__frame">
@@ -687,7 +697,7 @@ function Atelier() {
               <span className="atl-intro__rule" />
             </div>
 
-            <h2 className="atl-intro__heading">
+            <h2 id="atelier-heading" className="atl-intro__heading">
               <span className="atl-intro__title-caps">
                 <span>E</span><span>L</span>
                 <span className="atl-intro__title-gap">&nbsp;&nbsp;</span>
@@ -844,9 +854,9 @@ function Atelier() {
                         <span key={j} className="atl-scene__tag">#{t}</span>
                       ))}
                     </div>
-                    <a href="#" className="atl-scene__cta">
+                    <a href="#contacto" className="atl-scene__cta">
                       <span>Enter this act</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                       </svg>
                     </a>
@@ -867,7 +877,7 @@ function Atelier() {
                   <div className="atl-scene__frame">
                     <img
                       src={scene.image}
-                      alt={scene.word}
+                      alt={scene.imageAlt}
                       className="atl-scene__image"
                     />
                     <div className="atl-scene__frame-tint" aria-hidden="true" />
@@ -956,7 +966,7 @@ function Atelier() {
             </div>
 
             <div className="atl-scene__frame">
-              <img src={scene.image} alt={scene.word} className="atl-scene__image" />
+              <img src={scene.image} alt={scene.imageAlt} className="atl-scene__image" />
               <div className="atl-scene__frame-tint" />
               <div className="atl-scene__frame-corners">
                 <span /><span /><span /><span />
@@ -1040,6 +1050,12 @@ function Atelier() {
             </em>
           </span>
         </blockquote>
+        <a href="#contacto" className="atl-outro__cta">
+          <span>Request a private atelier visit</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
         <div className="atl-outro__sign">
           <span className="atl-outro__sign-line" />
           <div className="atl-outro__sign-text">

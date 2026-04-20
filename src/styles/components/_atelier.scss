@@ -712,6 +712,13 @@
       color: $color-primary-dark;
       svg { transform: translateX(4px); }
     }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-dark;
+      outline-offset: 6px;
+      border-radius: 2px;
+      color: $color-primary-dark;
+    }
   }
 
   // ── Visual column ──
@@ -1164,6 +1171,42 @@
     will-change: transform;
   }
 
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: $spacing-xl;
+    padding: 10px 0;
+    font-family: $font-primary;
+    font-size: 0.72rem;
+    font-weight: $font-weight-medium;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    text-decoration: none;
+    border-bottom: 1px solid $color-text-dark;
+    transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover {
+      gap: 16px;
+      color: $color-primary-dark;
+      svg { transform: translateX(4px); }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-dark;
+      outline-offset: 6px;
+      border-radius: 2px;
+      color: $color-primary-dark;
+    }
+  }
+
   &__sign {
     display: inline-flex;
     align-items: center;
@@ -1221,4 +1264,17 @@
 @keyframes atl-arrow {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(4px); }
+}
+
+// ============================================================
+// REDUCED MOTION — baseline accessibility
+// ============================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .atelier,
+  .atelier * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

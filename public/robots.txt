@@ -1,0 +1,8 @@
+# robots.txt for Stelar — Haute Couture Atelier
+# https://PlexifyStudio-projects.github.io/Project-ropa/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://PlexifyStudio-projects.github.io/Project-ropa/sitemap.xml
